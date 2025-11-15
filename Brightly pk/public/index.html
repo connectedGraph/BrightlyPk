@@ -1,0 +1,1911 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Brightly Pk</title>
+   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;font-family:'Arial',sans-serif;-webkit-tap-highlight-color:transparent}
+        body{background:#f5f7fa;line-height:1.6;padding:0;margin:0}
+        .container{max-width:800px;margin:0 auto;background:white;min-height:100vh;position:relative;padding-bottom:70px}
+        h2{color:#2d3748;margin-bottom:25px;text-align:center;font-size:24px;border-bottom:2px solid #4299e1;padding-bottom:10px}
+        h3{color:#4a5568;margin:20px 0;font-size:20px}
+        input{width:100%;padding:12px 15px;margin:10px 0;border:1px solid #e2e8f0;border-radius:6px;font-size:16px;transition:border 0.3s}
+        input:focus{outline:none;border-color:#4299e1;box-shadow:0 0 0 3px rgba(66,153,225,0.1)}
+        button{background:#4299e1;color:white;border:none;padding:12px 20px;border-radius:6px;font-size:16px;cursor:pointer;transition:all 0.3s;margin:8px 4px}
+        button:hover{background:#3182ce;transform:translateY(-2px)}
+        button:disabled{background:#a0aec0;cursor:not-allowed;transform:none}
+        .option-btn{background:#f7fafc;color:#2d3748;border:1px solid #e2e8f0;width:100%;text-align:left;padding:15px}
+        .option-btn:hover{background:#edf2f7;border-color:#4299e1}
+        .option-btn.correct{background:#c6f6d5;border-color:#48bb78;color:#22543d}
+        .option-btn.incorrect{background:#fed7d7;border-color:#e53e3e;color:#742a2a}
+        #userInfo{background:#f0f8fb;padding:15px;border-radius:8px;margin-bottom:20px;font-size:16px;color:#2d3748;text-align:center}
+        #countdown{font-size:28px;font-weight:bold;color:#e53e3e;text-align:center;margin:20px 0;height:40px}
+        .question-card{background:#f8f9fa;padding:20px;border-radius:8px;margin:20px 0;box-shadow:0 2px 8px rgba(0,0,0,0.05)}
+        .question-title{font-size:18px;color:#2d3748;margin-bottom:15px;line-height:1.5}
+        .question-number{color:#4299e1;font-weight:bold;margin-right:8px}
+        #optionArea{display:flex;flex-direction:column;gap:10px;margin:20px 0}
+        #battleProgress{display:flex;justify-content:space-between;margin:20px 0;padding:15px;background:#f5f5f5;border-radius:8px}
+        #resultDetail{text-align:center;padding:20px;font-size:18px;margin:20px 0}
+        #resultDetail p{margin:10px 0}
+        .win{color:#48bb78;font-weight:bold;font-size:22px}
+        .lose{color:#e53e3e;font-weight:bold;font-size:22px}
+        .draw{color:#ed8936;font-weight:bold;font-size:22px}
+        .msg{padding:10px;border-radius:6px;margin:10px 0;text-align:center;font-size:14px}
+        .success{background:#e6fffa;color:#08979c}
+        .error{background:#fff1f0;color:#e53e3e}
+        .info{background:#e8f4f8;color:#4299e1}
+        #errorList{max-height:400px;overflow-y:auto;margin:20px 0}
+        .error-item{background:#fafafa;padding:15px;border-radius:8px;margin-bottom:15px;border-left:4px solid #ed8936}
+        .error-item p{margin:5px 0;font-size:14px;line-height:1.5}
+        .module{animation:fadeIn 0.3s ease;padding:20px}
+        @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+        a{color:#4299e1;text-decoration:none}
+        a:hover{text-decoration:underline}
+        .btn-group{display:flex;justify-content:center;flex-wrap:wrap;margin:20px 0}
+        .difficulty-selector{margin:15px 0;text-align:center}
+        .difficulty-btn{margin:5px;padding:10px 15px}
+        .difficulty-btn.selected{transform:scale(1.05);box-shadow:0 4px 8px rgba(0,0,0,0.1)}
+        .progress-bar{height:8px;background:#e2e8f0;border-radius:4px;margin:15px 0;overflow:hidden}
+        .progress-fill{height:100%;background:#4299e1;width:0%;transition:width 0.3s}
+        .battle-info{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding:15px;background:#f0f8fb;border-radius:8px}
+        .opponent-info{display:flex;align-items:center;gap:10px}
+        .opponent-avatar{width:40px;height:40px;border-radius:50%;background:#4299e1;display:flex;align-items:center;justify-content:center;color:white;font-weight:bold}
+        .time-indicator{font-size:14px;color:#718096;text-align:right}
+        .mjx-chtml{outline:none}
+        .math-container{display:inline-block;vertical-align:middle}
+        .navbar{position:fixed;bottom:0;left:0;width:100%;background:#fff;box-shadow:0 -2px 10px rgba(0,0,0,0.1);display:flex;justify-content:space-around;padding:10px 0;z-index:100}
+        .nav-btn{background:none;color:#4a5568;border:none;padding:8px 12px;border-radius:6px;cursor:pointer;transition:all 0.3s;font-size:14px;display:flex;flex-direction:column;align-items:center;flex:1;margin:0 5px}
+        .nav-btn:hover{background:#edf2f7;color:#4299e1}
+        .nav-btn.active{background:#4299e1;color:white}
+        .game-section{display:none}
+        .game-section.active{display:block}
+        .friends-container{display:grid;grid-template-columns:1fr;gap:20px}
+        .friends-column{background:#f8f9fa;padding:20px;border-radius:8px}
+        .friends-list,.requests-list{max-height:300px;overflow-y:auto;margin:10px 0;border:1px solid #e2e8f0;border-radius:8px;padding:10px}
+        .friend-item{background:white;padding:15px;margin:10px 0;border-radius:8px;border-left:4px solid #4299e1}
+        .request-item{background:white;padding:15px;margin:10px 0;border-radius:8px;border-left:4px solid #ed8936;box-shadow:0 1px 3px rgba(0,0,0,0.1)}
+        .friend-item.online{border-left-color:#48bb78}
+        .friend-item.offline{border-left-color:#a0aec0}
+        .request-actions{margin-top:10px;display:flex;gap:10px}
+        .request-actions button{padding:8px 15px;border:none;border-radius:4px;cursor:pointer;font-size:14px;color:white}
+        .add-friend-form{margin-top:15px}
+        .add-friend-form input,.add-friend-form textarea{width:100%;margin:5px 0;padding:10px;border:1px solid #e2e8f0;border-radius:4px}
+        .chat-container{display:grid;grid-template-columns:1fr;gap:20px;height:500px}
+        .chat-sidebar{background:#f8f9fa;border-radius:8px;padding:15px}
+        .chat-main{display:flex;flex-direction:column;background:white;border-radius:8px;border:1px solid #e2e8f0}
+        .chat-header{padding:15px;border-bottom:1px solid #e2e8f0;background:#f7fafc}
+        .chat-messages{flex:1;padding:15px;overflow-y:auto;max-height:350px}
+        .chat-message{margin:10px 0;padding:10px 15px;border-radius:8px;max-width:70%}
+        .chat-message.own{background:#4299e1;color:white;margin-left:auto}
+        .chat-message.other{background:#f7fafc;border:1px solid #e2e8f0}
+        .chat-message .message-time{font-size:12px;opacity:0.7;margin-top:5px}
+        .chat-input-area{display:flex;padding:15px;border-top:1px solid #e2e8f0}
+        .chat-input-area input{flex:1;padding:10px;border:1px solid #e2e8f0;border-radius:4px;margin-right:10px}
+        .chat-friend-item{padding:10px;margin:5px 0;border-radius:4px;cursor:pointer;transition:background 0.3s}
+        .chat-friend-item:hover{background:#edf2f7}
+        .chat-friend-item.active{background:#4299e1;color:white}
+        .chat-friend-item.online::before{content:"●";color:#48bb78;margin-right:5px}
+        .chat-friend-item.offline::before{content:"●";color:#a0aec0;margin-right:5px}
+        .modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:1000;justify-content:center;align-items:center}
+        .modal-content{background:white;padding:30px;border-radius:12px;width:400px;max-width:90%}
+        .request-info{margin-bottom:10px}
+        .request-info strong{color:#2d3748;font-size:16px}
+        .request-info p{color:#4a5568;margin:5px 0}
+        .request-info small{color:#718096;font-size:12px}
+        .form-group{margin-bottom:15px}
+        .form-group label{display:block;margin-bottom:5px}
+        .form-group input,.form-group textarea{width:100%;padding:8px;border:1px solid #ddd;border-radius:4px}
+        .form-buttons{text-align:right}
+        .form-buttons button{margin-left:10px}
+        .multi-option{margin:8px 0;padding:8px;border-radius:6px;transition:background-color .2s}.multi-option:hover{background-color:#f7fafc}.multi-option-label{display:flex;align-items:center;cursor:pointer;font-size:16px;padding:8px 12px;border-radius:6px;transition:all .2s}.multi-option-label:hover{background-color:#edf2f7}.multi-option-label input[type="checkbox"]{margin-right:12px;width:18px;height:18px;cursor:pointer}.option-text{flex:1}.submit-multi-btn{margin-top:15px;width:100%;padding:12px;font-size:16px;font-weight:bold}
+        .friend-notification{background:#e6f7ff;border:1px solid #91d5ff;border-radius:6px;padding:10px 15px;margin:10px 0;display:flex;justify-content:space-between;align-items:center}
+        .friend-notification button{background:#1890ff;color:white;border:none;padding:4px 8px;border-radius:4px;cursor:pointer;font-size:12px}
+        .icon{font-size:20px;margin-bottom:5px}
+        @media (max-width:600px){.container{padding:0}.module{padding:15px}h2{font-size:20px}h3{font-size:18px}button{padding:10px 15px;width:100%;margin:5px 0}#battleProgress{flex-direction:column;gap:10px}.battle-info{flex-direction:column;gap:10px;text-align:center}.navbar{padding:8px 0}.nav-btn{font-size:12px;padding:6px 8px}}
+        @media (max-width:768px){.friends-container{grid-template-columns:1fr}.chat-container{grid-template-columns:1fr;height:auto}.modal-content{width:95%}}
+        .difficulty-selector {
+    margin: 15px 0;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.difficulty-btn {
+    margin: 0;
+    padding: 16px 24px;
+    width: 200px;
+    border: none;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.difficulty-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: left 0.5s;
+}
+
+.difficulty-btn:hover::before {
+    left: 100%;
+}
+
+.difficulty-btn:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.difficulty-btn.selected {
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+}
+
+/* 简单难度样式 */
+#easyBtn {
+    background: linear-gradient(135deg, #48bb78, #68d391);
+    color: white;
+    border: 2px solid #38a169;
+}
+
+#easyBtn:hover {
+    background: linear-gradient(135deg, #38a169, #48bb78);
+    box-shadow: 0 8px 25px rgba(72, 187, 120, 0.3);
+}
+
+#easyBtn.selected {
+    background: linear-gradient(135deg, #2f855a, #38a169);
+    border-color: #2f855a;
+    box-shadow: 0 6px 20px rgba(72, 187, 120, 0.4);
+}
+
+/* 中等难度样式 */
+#mediumBtn {
+    background: linear-gradient(135deg, #ed8936, #f6ad55);
+    color: white;
+    border: 2px solid #dd6b20;
+}
+
+#mediumBtn:hover {
+    background: linear-gradient(135deg, #dd6b20, #ed8936);
+    box-shadow: 0 8px 25px rgba(237, 137, 54, 0.3);
+}
+
+#mediumBtn.selected {
+    background: linear-gradient(135deg, #c05621, #dd6b20);
+    border-color: #c05621;
+    box-shadow: 0 6px 20px rgba(237, 137, 54, 0.4);
+}
+
+/* 困难难度样式 */
+#hardBtn {
+    background: linear-gradient(135deg, #e53e3e, #fc8181);
+    color: white;
+    border: 2px solid #c53030;
+}
+
+#hardBtn:hover {
+    background: linear-gradient(135deg, #c53030, #e53e3e);
+    box-shadow: 0 8px 25px rgba(229, 62, 62, 0.3);
+}
+
+#hardBtn.selected {
+    background: linear-gradient(135deg, #9b2c2c, #c53030);
+    border-color: #9b2c2c;
+    box-shadow: 0 6px 20px rgba(229, 62, 62, 0.4);
+}
+
+/* 添加图标 */
+.difficulty-btn::after {
+    content: '';
+    display: inline-block;
+    margin-left: 10px;
+    font-size: 16px;
+    transition: transform 0.3s;
+}
+
+#easyBtn::after {
+    content: '😊';
+}
+
+#mediumBtn::after {
+    content: '😐';
+}
+
+#hardBtn::after {
+    content: '😰';
+}
+
+.difficulty-btn.selected::after {
+    transform: scale(1.2);
+}
+
+/* 响应式调整 */
+@media (max-width: 600px) {
+    .difficulty-btn {
+        width: 90%;
+        max-width: 250px;
+        padding: 14px 20px;
+        font-size: 16px;
+    }
+}
+    </style>
+    <!-- MathJax配置和加载 -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: {
+                fontCache: 'global'
+            },
+            startup: {
+                typeset: false
+            }
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- 注册模块 -->
+        <div id="registerModule" class="module">
+            <h2>用户注册</h2>
+            <input type="text" id="regUsername" placeholder="请输入用户名（3-16位，唯一）" required>
+            <input type="password" id="regPassword" placeholder="请输入密码（6-20位）" required>
+            <input type="email" id="regEmail" placeholder="请输入联系邮箱" required>
+            <div class="btn-group">
+                <button onclick="registerUser()" id="regBtn">注册</button>
+            </div>
+            <p style="text-align: center; margin-top: 15px;">已有账号？<a href="javascript:showModule('loginModule')">立即登录</a></p>
+            <div id="regMsg" class="msg"></div>
+        </div>
+
+        <!-- 登录模块 -->
+        <div id="loginModule" class="module" style="display: none;">
+            <h2>用户登录</h2>
+            <input type="text" id="loginUsername" placeholder="请输入用户名" required>
+            <input type="password" id="loginPassword" placeholder="请输入密码" required>
+            <div class="btn-group">
+                <button onclick="loginUser()" id="loginBtn">登录</button>
+            </div>
+            <p style="text-align: center; margin-top: 15px;">没有账号？<a href="javascript:showModule('registerModule')">立即注册</a></p>
+            <div id="loginMsg" class="msg"></div>
+        </div>
+
+        <!-- 游戏主模块（登录后显示） -->
+        <div id="gameModule" class="module" style="display: none;">
+            <h2>Brightly Pk 高中数学版</h2>
+            <div id="userInfo"></div>
+
+            <!-- 对战模块 -->
+            <div id="gameSection-match" class="game-section active">
+                <!-- 匹配模块 -->
+                <div id="matchModule">
+                    <h3>对战匹配</h3>
+                    <div class="difficulty-selector">
+                        <label style="margin-right: 15px;">选择难度：</label>
+                        <button onclick="selectDifficulty('easy')" id="easyBtn" class="difficulty-btn">简单</button>
+                        <button onclick="selectDifficulty('medium')" id="mediumBtn" class="difficulty-btn">中等</button>
+                        <button onclick="selectDifficulty('hard')" id="hardBtn" class="difficulty-btn">困难</button>
+                    </div>
+                    <div class="btn-group">
+                        <button onclick="joinMatch()" id="joinMatchBtn" disabled>发起匹配</button>
+                        <button onclick="cancelMatch()" id="cancelMatchBtn" style="display: none; background: #e53e3e;">取消匹配</button>
+                    </div>
+                    <div id="matchStatus" class="msg info"></div>
+                </div>
+
+                <!-- 对战模块（匹配成功后显示） -->
+                <div id="battleModule" style="display: none;">
+                    <div class="battle-info">
+                        <h3>对战中</h3>
+                        <div class="opponent-info">
+                            <div class="opponent-avatar">?</div>
+                            <div>对手：<span id="opponentName"></span></div>
+                        </div>
+                        <div class="time-indicator" id="answerTime"></div>
+                    </div>
+                    
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressBar"></div>
+                    </div>
+                    
+                    <div id="countdown"></div>
+                    
+                    <div class="question-card">
+                        <div class="question-title" id="questionArea"></div>
+                        <div id="optionArea"></div>
+                    </div>
+                    
+                    <div id="battleProgress">
+                        <p>你的得分：<span id="myScore" style="color: #4299e1; font-weight: bold;">0</span></p>
+                        <p>对手得分：<span id="opponentScore" style="color: #e53e3e; font-weight: bold;">0</span></p>
+                    </div>
+                </div>
+
+                <!-- 对战结果模块 -->
+                <div id="resultModule" style="display: none;">
+                    <h3>对战结果</h3>
+                    <div id="resultDetail"></div>
+                    <div class="btn-group">
+                        <button onclick="backToMatch()">再次对战</button>
+                        <button onclick="getBattleDetail()">查看对战详情</button>
+                        <button onclick="addOpponentAsFriend()" id="addFriendBtn" style="background: #48bb78;">加为好友</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 好友模块 -->
+            <div id="gameSection-friends" class="game-section">
+                <div class="friends-container">
+                    <div class="friends-column">
+                        <h3>好友列表</h3>
+                        <div id="friendsList" class="friends-list"></div>
+                    </div>
+                    
+                    <div class="friends-column">
+                        <h3>好友申请</h3>
+                        <div id="friendRequests" class="requests-list"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 聊天模块 -->
+            <div id="gameSection-chat" class="game-section">
+                <div class="chat-container">
+                    <div class="chat-sidebar">
+                        <h3>好友列表</h3>
+                        <div id="chatFriendsList" class="chat-friends-list"></div>
+                    </div>
+                    
+                    <div class="chat-main">
+                        <div class="chat-header">
+                            <h3 id="chatWithUser">选择好友开始聊天</h3>
+                        </div>
+                        <div id="chatMessages" class="chat-messages"></div>
+                        <div class="chat-input-area">
+                            <input type="text" id="chatInput" placeholder="输入消息..." disabled>
+                            <button onclick="sendChatMessage()" id="sendChatBtn" disabled>发送</button>
+                        </div>
+                    </div>
+                </div>
+                <br><br><br><br><br><br><br><br><br><br><br><br>
+            </div>
+
+            <!-- 错题本模块 -->
+            <div id="gameSection-errorBank" class="game-section">
+                <h3>我的错题本</h3>
+                <div class="btn-group">
+                    <button onclick="exportErrorBank()">导出为Markdown</button>
+                    <button onclick="clearErrorBank()" style="background: #e53e3e;">清空错题本</button>
+                    <button onclick="showGameSection('match')">返回对战</button>
+                </div>
+                <div id="errorList"></div>
+            </div>
+        </div>
+
+        <!-- 添加好友模态框 -->
+        <div id="addFriendModal" class="modal">
+            <div class="modal-content">
+                <h3 style="margin-bottom: 20px;">添加好友</h3>
+                <div class="add-friend-form">
+                    <input type="text" id="friendUsername" placeholder="输入对方用户名" style="width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #e2e8f0; border-radius: 6px;">
+                    <textarea id="friendRequestMessage" placeholder="申请留言（可选）" rows="3" style="width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #e2e8f0; border-radius: 6px;"></textarea>
+                    <div style="display: flex; gap: 10px;">
+                        <button onclick="sendFriendRequest()" style="flex: 1; background: #4299e1;">发送申请</button>
+                        <button onclick="closeAddFriendModal()" style="flex: 1; background: #a0aec0;">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 底部导航栏 -->
+        <div class="navbar" style="display: flex;" id="bottomNav">
+            <button onclick="showGameSection('match')" class="nav-btn active" id="navMatch">
+                <div class="icon">⚔️</div>
+                <span>对战</span>
+            </button>
+            <button onclick="showGameSection('friends')" class="nav-btn" id="navFriends">
+                <div class="icon">👥</div>
+                <span>好友</span>
+            </button>
+            <button onclick="showGameSection('chat')" class="nav-btn" id="navChat">
+                <div class="icon">💬</div>
+                <span>聊天</span>
+            </button>
+            <button onclick="showGameSection('errorBank')" class="nav-btn" id="navErrorBank">
+                <div class="icon">📚</div>
+                <span>错题本</span>
+            </button>
+            <button onclick="showAddFriendModal()" class="nav-btn" id="navAddFriend">
+                <div class="icon">➕</div>
+                <span>加好友</span>
+            </button>
+            <button onclick="logout()" class="nav-btn" style="color: #e53e3e;">
+                <div class="icon">🚪</div>
+                <span>退出</span>
+            </button>
+        </div>
+    </div>
+   <script>       // 显示提示消息
+function showToast(message, type = 'success') {
+    // 创建toast元素
+    const toast = document.createElement('div');
+    toast.className = `fixed top-4 left-1/2 transform -translate-x-1/2 px-6 py-3 rounded-lg shadow-lg z-50 transition-all duration-300 translate-y-[-100px] opacity-0`;
+    
+    // 设置样式
+    if (type === 'success') {
+        toast.classList.add('bg-green-500', 'text-white');
+    } else {
+        toast.classList.add('bg-red-500', 'text-white');
+    }
+    
+    // 设置内容
+    toast.textContent = message;
+    
+    // 添加到页面
+    document.body.appendChild(toast);
+    
+    // 显示toast - 从上方滑入
+    setTimeout(() => {
+        toast.classList.remove('translate-y-[-100px]', 'opacity-0');
+        toast.classList.add('translate-y-0', 'opacity-100');
+    }, 10);
+    
+    // 3秒后隐藏
+    setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-[-100px]', 'opacity-0');
+        
+        // 移除元素
+        setTimeout(() => {
+            if (document.body.contains(toast)) {
+                document.body.removeChild(toast);
+            }
+        }, 300);
+    }, 3000);
+}
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        // 基础配置
+        const baseUrl = `${window.location.origin}/api`;
+        let currentUser = null;
+        let ws = null;
+        let battleId = null;
+        let currentQuestionIndex = 0;
+        let questions = [];
+        let matchTimer = null;
+        let answerTimer = null;
+        let reconnectCount = 0;
+        const maxReconnectCount = 5;
+        let selectedDifficulty = null;
+        let currentBattleId = null;
+        let currentChatFriend = null;
+        let opponentUserId = null;
+
+        const DIFFICULTY_TIME_CONFIG = { //mintime 系统认定的 “合理最快完成时间” 快于这个时间仍算正常完成，不影响满分获取
+        easy: { maxTime: 300, minTime: 30, baseScore: 80 },
+        medium: { maxTime: 600, minTime: 60, baseScore: 100 },
+        hard: { maxTime: 900, minTime: 120, baseScore: 150 }
+        };
+
+
+        // 创建配置好的axios实例
+        const api = axios.create({
+        baseURL: baseUrl,
+        withCredentials: true // 关键：所有请求都携带cookie
+        });
+
+        // MathJax渲染函数
+        function renderMathJax(element) {
+            if (window.MathJax && element) {
+                try {
+                    MathJax.typesetPromise([element]).catch(err => {
+                        console.warn('MathJax渲染警告:', err);
+                    });
+                } catch (error) {
+                    console.error('MathJax渲染错误:', error);
+                }
+            }
+        }
+
+        // 延迟渲染函数，用于动态内容
+        function renderMathJaxDelayed(element, delay = 100) {
+            setTimeout(() => {
+                renderMathJax(element);
+            }, delay);
+        }
+
+        // 模块切换函数
+        function showModule(moduleId) {
+            if (moduleId === 'loginModule') {
+                document.getElementById('bottomNav').style.display = 'none';
+            } else {
+                document.getElementById('bottomNav').style.display = 'flex';
+            }
+            console.log('切换到模块:', moduleId);
+            
+            // 隐藏所有模块
+            document.querySelectorAll('.module').forEach(module => {
+                module.style.display = 'none';
+            });
+            
+            // 显示目标模块
+            const targetModule = document.getElementById(moduleId);
+            if (targetModule) {
+                targetModule.style.display = 'block';
+            }
+            
+            // 重置提示信息
+            document.querySelectorAll('.msg').forEach(msg => {
+                msg.textContent = '';
+                msg.className = 'msg';
+            });
+        }
+
+        // 显示游戏部分
+        function showGameSection(section) {
+            console.log('切换到部分:', section);
+            
+            // 隐藏所有部分
+            document.querySelectorAll('.game-section').forEach(el => {
+                el.style.display = 'none';
+                el.classList.remove('active');
+            });
+            
+            // 移除所有导航按钮的active类
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // 显示选中的部分
+            const targetSection = document.getElementById(`gameSection-${section}`);
+            const targetNav = document.getElementById(`nav${section.charAt(0).toUpperCase() + section.slice(1)}`);
+            
+            if (targetSection) {
+                targetSection.style.display = 'block';
+                targetSection.classList.add('active');
+            }
+            
+            if (targetNav) {
+                targetNav.classList.add('active');
+            }
+            
+            // 加载对应部分的数据
+            switch(section) {
+                case 'friends':
+                    loadFriends();
+                    loadFriendRequests();
+                    break;
+                case 'chat':
+                    loadChatFriends();
+                    break;
+                case 'errorBank':
+                    showErrorBank();
+                    break;
+            }
+            
+            console.log('切换完成，当前活跃部分:', section);
+        }
+
+        // 返回匹配界面
+        function backToMatch() {
+            resetBattleState();
+            showGameSection('match');
+        }
+
+        // 重置对战状态
+        function resetBattleState() {
+            currentQuestionIndex = 0;
+            battleId = null;
+            questions = [];
+            selectedDifficulty = null;
+            
+            document.getElementById('myScore').textContent = '0';
+            document.getElementById('opponentScore').textContent = '0';
+            document.getElementById('progressBar').style.width = '0%';
+            
+            // 重置难度按钮
+            document.querySelectorAll('.difficulty-btn').forEach(btn => {
+                btn.classList.remove('selected');
+                btn.style.backgroundColor = '';
+            });
+            
+            // 重置匹配按钮
+            document.getElementById('joinMatchBtn').disabled = true;
+            document.getElementById('joinMatchBtn').style.display = 'inline-block';
+            document.getElementById('cancelMatchBtn').style.display = 'none';
+            
+            document.getElementById('matchStatus').textContent = '';
+            
+            // 显示匹配模块，隐藏对战和结果模块
+            document.getElementById('matchModule').style.display = 'block';
+            document.getElementById('battleModule').style.display = 'none';
+            document.getElementById('resultModule').style.display = 'none';
+        }
+
+        // 选择对战难度
+        function selectDifficulty(difficulty) {
+            // 重置所有难度按钮样式
+            document.querySelectorAll('.difficulty-btn').forEach(btn => {
+                btn.classList.remove('selected');
+                btn.style.backgroundColor = '';
+            });
+            
+            // 高亮选中的难度
+            selectedDifficulty = difficulty;
+            const selectedBtn = document.getElementById(`${difficulty}Btn`);
+            selectedBtn.classList.add('selected');
+            
+            // 设置不同难度的颜色
+            switch(difficulty) {
+                case 'easy':
+                    selectedBtn.style.backgroundColor = '#48bb78';
+                    break;
+                case 'medium':
+                    selectedBtn.style.backgroundColor = '#ed8936';
+                    break;
+                case 'hard':
+                    selectedBtn.style.backgroundColor = '#e53e3e';
+                    break;
+            }
+            
+            // 启用匹配按钮
+            document.getElementById('joinMatchBtn').disabled = false;
+        }
+
+        // 获取难度文本
+        function getDifficultyText(difficulty) {
+            switch(difficulty) {
+                case 'easy': return '简单';
+                case 'medium': return '中等';
+                case 'hard': return '困难';
+                default: return '默认';
+            }
+        }
+
+        // 用户注册
+        async function registerUser() {
+            const username = document.getElementById('regUsername').value.trim();
+            const password = document.getElementById('regPassword').value.trim();
+            const email = document.getElementById('regEmail').value.trim();
+            const regMsg = document.getElementById('regMsg');
+            const regBtn = document.getElementById('regBtn');
+
+            // 表单验证
+            if (!username || username.length < 3 || username.length > 16) {
+                regMsg.textContent = '用户名需为3-16位字符';
+                regMsg.className = 'msg error';
+                return;
+            }
+            if (!password || password.length < 6 || password.length > 20) {
+                regMsg.textContent = '密码需为6-20位字符';
+                regMsg.className = 'msg error';
+                return;
+            }
+            if (!email || !/^[\w.-]+@[a-zA-Z0-9-]+\.[a-zA-Z]+$/.test(email)) {
+                regMsg.textContent = '请输入有效的邮箱地址';
+                regMsg.className = 'msg error';
+                return;
+            }
+
+            // 禁用按钮防止重复提交
+            regBtn.disabled = true;
+            regMsg.textContent = '正在注册...';
+            regMsg.className = 'msg info';
+
+            try {
+                const res = await axios.post(`${baseUrl}/register`, {
+                    username,
+                    password,
+                    email
+                });
+                regMsg.textContent = `注册成功！你的用户ID：${res.data.id}，1.5秒后跳转登录`;
+                regMsg.className = 'msg success';
+                setTimeout(() => showModule('loginModule'), 1500);
+            } catch (err) {
+                regMsg.textContent = err.response?.data?.error || '注册失败，请重试';
+                regMsg.className = 'msg error';
+            } finally {
+                regBtn.disabled = false;
+            }
+        }
+
+        // 用户登录
+        async function loginUser() {
+            const username = document.getElementById('loginUsername').value.trim();
+            const password = document.getElementById('loginPassword').value.trim();
+            const loginMsg = document.getElementById('loginMsg');
+            const loginBtn = document.getElementById('loginBtn');
+
+            if (!username || !password) {
+                loginMsg.textContent = '请填写用户名和密码';
+                loginMsg.className = 'msg error';
+                return;
+            }
+
+            loginBtn.disabled = true;
+            loginMsg.textContent = '正在登录...';
+            loginMsg.className = 'msg info';
+
+            try {
+                const res = await axios.post(`${baseUrl}/login`, {
+                    username,
+                    password
+                });
+                currentUser = res.data;
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                loginMsg.textContent = '登录成功！即将进入游戏';
+                loginMsg.className = 'msg success';
+                await updateUserInfo();
+                setTimeout(() => {
+                    showModule('gameModule');
+                    initWebSocket();
+                }, 500);
+            } catch (err) {
+                loginMsg.textContent = err.response?.data?.error || '登录失败，请检查账号密码';
+                loginMsg.className = 'msg error';
+            } finally {
+                loginBtn.disabled = false;
+            }
+        }
+
+        // 更新用户信息展示
+        async function updateUserInfo() {
+            try {
+                const res = await axios.get(`${baseUrl}/user`);
+                currentUser = res.data;
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                const userInfo = document.getElementById('userInfo');
+                userInfo.innerHTML = `
+                    用户名：<strong>${currentUser.username}</strong> | 
+                    积分：<span style="color: #ed8936; font-weight: bold;">${currentUser.score}</span> | 
+                    胜场：<span style="color: #48bb78; font-weight: bold;">${currentUser.wins}</span> | 
+                    败场：<span style="color: #e53e3e; font-weight: bold;">${currentUser.losses}</span>
+                `;
+            } catch (err) {
+                localStorage.removeItem('currentUser');
+                showToast('用户信息验证失败，请重新登录', 'error');
+                showModule('loginModule');
+            }
+        }
+
+        // 退出登录
+        function logout() {
+            if (ws) {
+                ws.close(1000, '用户主动退出');
+                ws = null;
+            }
+            localStorage.removeItem('currentUser');
+            currentUser = null;
+            resetBattleState();
+            showModule('loginModule');
+        }
+
+        // 初始化WebSocket连接
+// 初始化WebSocket连接
+function initWebSocket() {
+    if (!currentUser || ws) return;
+    if (reconnectCount >= maxReconnectCount) {
+        showToast('连接失败次数过多，请刷新页面重试', 'error');
+        return;
+    }
+
+    // 修复：动态获取WebSocket地址
+    const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+    const wsUrl = `${wsProtocol}//${window.location.host}`;
+    
+    console.log('正在连接WebSocket:', wsUrl);
+    ws = new WebSocket(wsUrl);
+
+    ws.onopen = () => {
+        console.log('WebSocket连接成功');
+        reconnectCount = 0;
+        ws.send(JSON.stringify({
+            type: 'auth',
+            userId: currentUser.id
+        }));
+    };
+
+    ws.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        handleWebSocketMsg(data);
+    };
+
+    ws.onclose = (event) => {
+        console.log('WebSocket连接关闭：', event.code, event.reason);
+        ws = null;
+        if (currentUser && event.code !== 1000) {
+            reconnectCount++;
+            setTimeout(initWebSocket, reconnectCount * 1000);
+        }
+    };
+
+    ws.onerror = (err) => {
+        console.error('WebSocket错误：', err);
+        ws.close();
+    };
+}
+
+        // 处理WebSocket消息
+        function handleWebSocketMsg(data) {
+            console.log('收到WebSocket消息:', data);
+            
+            switch (data.type) {
+                case 'match_status':
+                    const matchStatus = document.getElementById('matchStatus');
+                    matchStatus.textContent = data.message;
+                    matchStatus.className = 'msg info';
+                    if (data.onlineCount) {
+                        matchStatus.textContent += `（当前在线：${data.onlineCount}人）`;
+                    }
+                    break;
+                    
+                case 'match_found':
+                    battleId = data.battleId;
+                    currentBattleId = data.battleId;
+                    questions = data.questions;
+                    document.getElementById('opponentName').textContent = data.opponent;
+                    
+                    // 发送准备通知
+                    if (ws) {
+                        ws.send(JSON.stringify({
+                            type: 'battle_ready',
+                            battleId: battleId
+                        }));
+                    }
+                    
+                    // 显示对战模块
+                    document.getElementById('matchModule').style.display = 'none';
+                    document.getElementById('battleModule').style.display = 'block';
+                    document.getElementById('resultModule').style.display = 'none';
+                    
+                    startCountdown();
+                    break;
+                    
+                case 'battle_start':
+                    showCurrentQuestion();
+                    break;
+                    
+                case 'battle_update':
+                    if (data.playerId !== currentUser.id) {
+                        document.getElementById('opponentScore').textContent = data.score;
+                    }
+                    break;
+                    
+                case 'battle_end':
+                    console.log('收到对战结束消息');
+                    showBattleResult(data);
+                    break;
+                    
+                case 'heartbeat_ack':
+                    break;
+                    
+                case 'friend_request_received':
+                    // 显示通知
+                    const notification = document.createElement('div');
+                    notification.className = 'msg info';
+                    notification.innerHTML = `
+                        收到来自 <strong>${data.request.fromUsername}</strong> 的好友申请！
+                        <button onclick="showGameSection('friends')" style="margin-left: 10px; padding: 2px 8px;">查看</button>
+                    `;
+                    document.getElementById('gameModule').insertBefore(notification, document.getElementById('gameModule').firstChild);
+                    
+                    // 如果正在好友页面，刷新申请列表
+                    if (document.getElementById('gameSection-friends').classList.contains('active')) {
+                        loadFriendRequests();
+                    }
+                    break;
+                    
+                case 'friend_request_accepted':
+                    showToast(`${data.username} 接受了你的好友申请！`, 'success');
+                    loadFriends();
+                    break;
+                    
+                case 'chat_message':
+                    // 处理聊天消息
+                    if (currentChatFriend && 
+                        (data.message.from === currentChatFriend.id || data.message.from === currentChatFriend.id)) {
+                        addMessageToChat(data.message);
+                    }
+                    break;
+                    
+                case 'chat_error':
+                    showToast('聊天错误: ' + data.message, 'error');
+                    break;
+                    
+                default:
+                    console.log('未知消息类型：', data.type);
+            }
+        }
+
+        // 加入匹配队列
+        function joinMatch() {
+            if (!ws || !selectedDifficulty) {
+                showToast('请先选择对战难度', 'error');
+                return;
+            }
+
+            ws.send(JSON.stringify({ 
+                type: 'match_join',
+                difficulty: selectedDifficulty
+            }));
+            
+            const matchStatus = document.getElementById('matchStatus');
+            matchStatus.textContent = `正在寻找${getDifficultyText(selectedDifficulty)}难度对手...`;
+            matchStatus.className = 'msg info';
+            document.getElementById('joinMatchBtn').style.display = 'none';
+            document.getElementById('cancelMatchBtn').style.display = 'inline-block';
+
+            // 超时处理
+            matchTimer = setTimeout(() => {
+                cancelMatch();
+                matchStatus.textContent = `匹配超时，请重新发起`;
+                matchStatus.className = 'msg error';
+            }, 30000);
+        }
+
+        // 取消匹配
+        function cancelMatch() {
+            if (ws) {
+                ws.send(JSON.stringify({ type: 'match_cancel' }));
+            }
+            document.getElementById('matchStatus').textContent = '已取消匹配';
+            document.getElementById('matchStatus').className = 'msg info';
+            document.getElementById('joinMatchBtn').style.display = 'inline-block';
+            document.getElementById('cancelMatchBtn').style.display = 'none';
+            clearTimeout(matchTimer);
+        }
+
+        // 对战倒计时
+        function startCountdown() {
+            let count = 3;
+            const countdownEl = document.getElementById('countdown');
+            countdownEl.textContent = `对战即将开始！${count}秒`;
+
+            const timer = setInterval(() => {
+                count--;
+                if (count <= 0) {
+                    clearInterval(timer);
+                    countdownEl.textContent = '对战开始！';
+                    setTimeout(() => {
+                        countdownEl.textContent = '';
+                        showCurrentQuestion();
+                    }, 1000);
+                } else {
+                    countdownEl.textContent = `对战即将开始！${count}秒`;
+                }
+            }, 1000);
+        }
+
+        // 展示当前题目
+        function showCurrentQuestion() {
+            if (currentQuestionIndex >= questions.length) {
+                document.getElementById('questionArea').innerHTML = '所有题目已答完，等待对手完成...';
+                document.getElementById('optionArea').innerHTML = '';
+                return;
+            }
+
+            const question = questions[currentQuestionIndex];
+            question.startTime = Date.now();
+            const questionEl = document.getElementById('questionArea');
+            const optionEl = document.getElementById('optionArea');
+
+            // 更新进度条
+            const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+            document.getElementById('progressBar').style.width = `${progress}%`;
+
+            // 展示题目
+            questionEl.innerHTML = `<span class="question-number">${currentQuestionIndex + 1}/${questions.length}</span> ${question.content}`;
+            renderMathJaxDelayed(questionEl);
+            
+            // 展示选项/填空
+            if (question.type === 'fill') {
+        // 填空题
+        optionEl.innerHTML = `
+            <input type="text" id="fillAnswer" placeholder="请输入答案">
+            <button onclick="submitFillAnswer()" class="option-btn">提交答案</button>
+        `;
+    } else if (question.type === 'multi') {
+        // 多选题 - 显示复选框和提交按钮
+        optionEl.innerHTML = '';
+        question.options.forEach((option, index) => {
+            const optionKey = String.fromCharCode(65 + index);
+            const optionDiv = document.createElement('div');
+            optionDiv.className = 'multi-option';
+            optionDiv.innerHTML = `
+                <label class="multi-option-label">
+                    <input type="checkbox" name="multiOption" value="${optionKey}">
+                    <span class="option-text">${optionKey}. ${option}</span>
+                </label>
+            `;
+            optionEl.appendChild(optionDiv);
+            renderMathJaxDelayed(optionDiv.querySelector('.option-text'));
+        });
+        
+        // 添加多选题提交按钮
+        const submitBtn = document.createElement('button');
+        submitBtn.className = 'option-btn submit-multi-btn';
+        submitBtn.textContent = '提交多选题答案';
+        submitBtn.onclick = submitMultiAnswer;
+        optionEl.appendChild(submitBtn);
+        
+    } else {
+        // 单选题 - 保持原有逻辑
+        optionEl.innerHTML = '';
+        question.options.forEach((option, index) => {
+            const optionKey = String.fromCharCode(65 + index);
+            const btn = document.createElement('button');
+            btn.className = 'option-btn';
+            btn.innerHTML = `${optionKey}. ${option}`;
+            btn.onclick = () => submitAnswer(optionKey, btn);
+            optionEl.appendChild(btn);
+            renderMathJaxDelayed(btn);
+        });
+    }
+
+            // 显示答题倒计时
+            // let timeLeft = 30;
+            let timeLeft = null;
+            timeLeft = DIFFICULTY_TIME_CONFIG[question.difficulty].maxTime;
+            const answerTimeEl = document.getElementById('answerTime');
+            answerTimeEl.textContent = `答题时间：${timeLeft}秒`;
+            answerTimeEl.style.color = '#718096';
+            
+            clearInterval(answerTimer);
+            
+            answerTimer = setInterval(() => {
+                timeLeft--;
+                answerTimeEl.textContent = `答题时间：${timeLeft}秒`;
+                if (timeLeft <= 3) {
+                    answerTimeEl.style.color = '#e53e3e';
+                }
+                if (timeLeft <= 0) {
+                    clearInterval(answerTimer);
+                    submitAnswer('', null, true);
+                }
+            }, 1000);
+        }
+
+        // 提交答案 单选
+        function submitAnswer(answer, btn, isTimeout = false) {
+    if (!questions || currentQuestionIndex >= questions.length) {
+        return;
+    }
+    
+    const question = questions[currentQuestionIndex];
+    if (question.answered || question.type === 'multi') {
+        return; // 多选题有专门的提交函数
+    }
+    
+    question.answered = true;
+
+    // 禁用所有选项按钮（单选题）
+    document.querySelectorAll('.option-btn').forEach(button => {
+        button.disabled = true;
+        const optionKey = button.textContent.split('.')[0];
+        if (optionKey === question.answer) {
+            button.classList.add('correct');
+        } else if (button === btn && !isTimeout) {
+            button.classList.add('incorrect');
+        }
+    });
+
+    const startTime = question.startTime || Date.now();
+    const timeTaken = Math.floor(Date.now() - startTime);
+    const answerTimeEl = document.getElementById('answerTime');
+    
+    clearInterval(answerTimer);
+    answerTimeEl.textContent = '';
+
+    // 计算得分
+    const isCorrect = !isTimeout && answer === question.answer;
+    const score = isCorrect 
+        ? calculateScore(timeTaken, question.difficulty)
+        : 0;
+
+    // 发送答题进度
+    if (ws) {
+        ws.send(JSON.stringify({
+            type: 'answer_progress',
+            battleId,
+            questionIndex: currentQuestionIndex,
+            answer: isTimeout ? 'timeout' : answer,
+            timeTaken,
+            score
+        }));
+    }
+
+    // 更新当前得分
+    const myScoreEl = document.getElementById('myScore');
+    myScoreEl.textContent = parseInt(myScoreEl.textContent) + score;
+
+    // 显示答题结果提示
+    const countdownEl = document.getElementById('countdown');
+    if (isCorrect) {
+        countdownEl.textContent = `回答正确！用时${(timeTaken/1000).toFixed(1)}秒，获得${score}分`;
+        countdownEl.style.color = '#48bb78';
+    } else if (isTimeout) {
+        countdownEl.textContent = `答题超时！正确答案：${question.answer}`;
+        countdownEl.style.color = '#e53e3e';
+    } else {
+        countdownEl.textContent = `回答错误！正确答案：${question.answer}`;
+        countdownEl.style.color = '#e53e3e';
+    }
+
+    // 进入下一题
+    setTimeout(() => {
+        countdownEl.textContent = '';
+        currentQuestionIndex++;
+        showCurrentQuestion();
+    }, 1500);
+}
+// 计算得分
+function calculateScore(timeTaken, difficulty) {
+    const config = DIFFICULTY_TIME_CONFIG[difficulty] || DIFFICULTY_TIME_CONFIG.medium;
+    const { baseScore, maxTime, minTime } = config;
+    
+    if (timeTaken <= minTime) return baseScore;
+    if (timeTaken >= maxTime) return Math.round(baseScore * 0.3);
+    
+    return Math.round(
+        baseScore - (baseScore * 0.7) * (timeTaken - minTime) / (maxTime - minTime)
+    );
+}
+        // 提交填空题答案
+        function submitFillAnswer() {
+            const answer = document.getElementById('fillAnswer').value.trim();
+            if (!answer) {
+                showToast('请输入答案', 'error');
+                return;
+            }
+            submitAnswer(answer);
+        }
+        // 提交多选题答案
+function submitMultiAnswer() {
+    if (!questions || currentQuestionIndex >= questions.length) {
+        return;
+    }
+    
+    const question = questions[currentQuestionIndex];
+    if (question.answered) {
+        return;
+    }
+    
+    // 获取所有选中的复选框
+    const selectedCheckboxes = document.querySelectorAll('input[name="multiOption"]:checked');
+    if (selectedCheckboxes.length === 0) {
+        showToast('请至少选择一个选项', 'error');
+        return;
+    }
+    
+    // 获取选中的答案（按字母顺序排序）
+    const selectedAnswers = Array.from(selectedCheckboxes)
+        .map(checkbox => checkbox.value)
+        .sort()
+        .join(''); // 转换为字符串格式，如 "ACD"
+    
+    question.answered = true;
+
+    // 禁用所有选项和提交按钮
+    document.querySelectorAll('input[name="multiOption"]').forEach(checkbox => {
+        checkbox.disabled = true;
+    });
+    document.querySelector('.submit-multi-btn').disabled = true;
+
+    const startTime = question.startTime || Date.now();
+    const timeTaken = Math.floor(Date.now() - startTime);
+    const answerTimeEl = document.getElementById('answerTime');
+    
+    clearInterval(answerTimer);
+    answerTimeEl.textContent = '';
+
+    // 计算得分
+    const isCorrect = selectedAnswers === question.answer;
+    const score = isCorrect 
+        ? calculateMultiChoiceScore(timeTaken, question.difficulty, selectedAnswers.length)
+        : 0;
+
+    // 发送答题进度
+    if (ws) {
+        ws.send(JSON.stringify({
+            type: 'answer_progress',
+            battleId,
+            questionIndex: currentQuestionIndex,
+            answer: selectedAnswers,
+            timeTaken,
+            score
+        }));
+    }
+
+    // 更新当前得分
+    const myScoreEl = document.getElementById('myScore');
+    myScoreEl.textContent = parseInt(myScoreEl.textContent) + score;
+
+    // 显示答题结果提示
+    const countdownEl = document.getElementById('countdown');
+    if (isCorrect) {
+        countdownEl.textContent = `回答正确！用时${(timeTaken/1000).toFixed(1)}秒，获得${score}分`;
+        countdownEl.style.color = '#48bb78';
+    } else {
+        countdownEl.textContent = `回答错误！正确答案：${question.answer}`;
+        countdownEl.style.color = '#e53e3e';
+    }
+
+    // 高亮显示正确和错误选项
+    highlightMultiChoiceAnswers(question.answer, selectedAnswers);
+
+    // 进入下一题
+    setTimeout(() => {
+        countdownEl.textContent = '';
+        currentQuestionIndex++;
+        showCurrentQuestion();
+    }, 2000);
+}
+
+// 计算多选题得分
+function calculateMultiChoiceScore(timeTaken, difficulty, selectedCount) {
+    const config = DIFFICULTY_TIME_CONFIG[difficulty] || DIFFICULTY_TIME_CONFIG.medium;
+    const { baseScore, maxTime, minTime } = config;
+    
+    // 多选题基础分数比单选题高
+    const multiBaseScore = baseScore * 1.5;
+    
+    if (timeTaken <= minTime) return Math.round(multiBaseScore);
+    if (timeTaken >= maxTime) return Math.round(multiBaseScore * 0.3);
+    
+    return Math.round(
+        multiBaseScore - (multiBaseScore * 0.7) * (timeTaken - minTime) / (maxTime - minTime)
+    );
+}
+
+// 高亮显示多选题答案
+function highlightMultiChoiceAnswers(correctAnswer, userAnswer) {
+    const correctOptions = correctAnswer.split('');
+    const userOptions = userAnswer.split('');
+    
+    document.querySelectorAll('.multi-option-label').forEach(label => {
+        const checkbox = label.querySelector('input');
+        const optionKey = checkbox.value;
+        const optionText = label.querySelector('.option-text');
+        
+        if (correctOptions.includes(optionKey)) {
+            // 正确选项
+            optionText.style.color = '#48bb78';
+            optionText.style.fontWeight = 'bold';
+        } else if (userOptions.includes(optionKey) && !correctOptions.includes(optionKey)) {
+            // 用户选错了的选项
+            optionText.style.color = '#e53e3e';
+            optionText.style.textDecoration = 'line-through';
+        }
+    });
+}
+
+// 处理超时
+function handleTimeout() {
+    const question = questions[currentQuestionIndex];
+    if (question.answered) return;
+    
+    if (question.type === 'multi') {
+        // 多选题超时，自动提交当前选中的答案
+        const selectedCheckboxes = document.querySelectorAll('input[name="multiOption"]:checked');
+        if (selectedCheckboxes.length > 0) {
+            submitMultiAnswer();
+        } else {
+            // 没有选择任何选项，提交空答案
+            submitAnswer('', null, true);
+        }
+    } else {
+        submitAnswer('', null, true);
+    }
+}
+
+        // 展示对战结果
+        async function showBattleResult(data) {
+            console.log('显示对战结果:', data);
+            
+            const resultDetail = document.getElementById('resultDetail');
+            const isWinner = data.result.type === 'win' && data.result.winner === currentUser.id;
+            const isDraw = data.result.type === 'draw';
+            const myScore = data.scores[currentUser.id];
+            const opponentScore = Object.values(data.scores).find(score => score !== myScore) || 0;
+            
+            // 获取真实正确率
+            let realAccuracy = 0;
+            try {
+                const statsRes = await axios.get(`${baseUrl}/battles/${data.battleId}/stats`);
+                realAccuracy = statsRes.data.accuracy;
+            } catch (err) {
+                console.log('获取真实正确率失败，使用估算值');
+                // 估算正确率（基于得分）
+                const maxPossibleScore = questions.length * 100;
+                realAccuracy = maxPossibleScore > 0 ? (myScore / maxPossibleScore * 100).toFixed(1) : 0;
+            }
+
+            let resultHTML = '';
+            
+            if (isDraw) {
+                resultHTML = `
+                    <p><strong>对战难度：</strong>${getDifficultyText(data.difficulty)}</p>
+                    <p class="draw">🤝 平局！</p>
+                    <p>你的得分：<span style="font-size: 24px; color: #4299e1;">${myScore}</span></p>
+                    <p>对手得分：<span style="font-size: 24px; color: #e53e3e;">${opponentScore}</span></p>
+                    <p>积分变动：<span style="color: #ed8936;">+5</span></p>
+                    <p>答题正确率：<span style="font-weight: bold;">${realAccuracy}%</span></p>
+                `;
+            } else if (isWinner) {
+                resultHTML = `
+                    <p><strong>对战难度：</strong>${getDifficultyText(data.difficulty)}</p>
+                    <p class="win">🎉 恭喜你获胜！</p>
+                    <p>你的得分：<span style="font-size: 24px; color: #4299e1;">${myScore}</span></p>
+                    <p>对手得分：<span style="font-size: 24px; color: #e53e3e;">${opponentScore}</span></p>
+                    <p>积分变动：<span style="color: #48bb78;">+${data.scoreChange || 10}</span></p>
+                    <p>答题正确率：<span style="font-weight: bold;">${realAccuracy}%</span></p>
+                `;
+            } else {
+                resultHTML = `
+                    <p><strong>对战难度：</strong>${getDifficultyText(data.difficulty)}</p>
+                    <p class="lose">💔 很遗憾你失败了</p>
+                    <p>你的得分：<span style="font-size: 24px; color: #4299e1;">${myScore}</span></p>
+                    <p>对手得分：<span style="font-size: 24px; color: #e53e3e;">${opponentScore}</span></p>
+                    <p>积分变动：<span style="color: #e53e3e;">-${Math.floor((data.scoreChange || 10) / 2)}</span></p>
+                    <p>答题正确率：<span style="font-weight: bold;">${realAccuracy}%</span></p>
+                `;
+            }
+
+            resultDetail.innerHTML = resultHTML;
+
+            // 强制切换模块
+            document.getElementById('battleModule').style.display = 'none';
+            document.getElementById('resultModule').style.display = 'block';
+            document.getElementById('matchModule').style.display = 'none';
+            
+            // 更新用户信息
+            updateUserInfo();
+            
+            console.log('已切换到结果页面');
+            
+            // 设置对手ID（用于加好友）
+            const opponent = data.result.type === 'win' 
+                ? (data.result.winner === currentUser.id ? data.result.loser : data.result.winner)
+                : Object.keys(data.scores).find(userId => userId !== currentUser.id);
+            opponentUserId = opponent;
+            
+            // 显示加好友按钮（如果不是自己且不是好友）
+            const addFriendBtn = document.getElementById('addFriendBtn');
+            if (opponent && opponent !== currentUser.id) {
+                addFriendBtn.style.display = 'inline-block';
+            } else {
+                console.log('隐藏加好友按钮');
+                addFriendBtn.style.display = 'none';
+            }
+        }
+
+        // 获取对战详情
+        async function getBattleDetail() {
+            if (!currentBattleId) {
+                showToast('暂无对战详情','success');
+                return;
+            }
+
+            try {
+                const res = await axios.get(`${baseUrl}/battles/${currentBattleId}`);
+                const detail = res.data;
+                showToast(`对战详情加载成功！\n对战ID: ${detail.id}\n开始时间: ${new Date(detail.startTime).toLocaleString()}`,'success');
+            } catch (err) {
+                showToast('获取对战详情失败：' + (err.response?.data?.error || '网络错误'),'error');
+            }
+        }
+
+        // 显示错题本
+        async function showErrorBank() {
+            try {
+                const res = await axios.get(`${baseUrl}/error-bank`);
+                const errors = res.data;
+                const errorList = document.getElementById('errorList');
+
+                if (errors.length === 0) {
+                    errorList.innerHTML = '<p style="text-align: center; padding: 20px; color: #718096;">暂无错题，继续加油！</p>';
+                } else {
+                    let statsHTML = `
+                        <div style="background: #f0f8fb; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                            <h4>📊 错题统计</h4>
+                            <p>错题总数：<strong>${errors.length}</strong> 题</p>
+                            <p>最后更新：${errors.length > 0 ? new Date(errors[errors.length-1].timestamp).toLocaleString('zh-CN') : '暂无'}</p>
+                        </div>
+                    `;
+                    
+                    errorList.innerHTML = statsHTML;
+                    
+                    errors.forEach((err, index) => {
+                        const item = document.createElement('div');
+                        item.className = 'error-item';
+                        item.innerHTML = `
+                            <p><strong>${index + 1}. 题目：</strong><span class="question-content">${err.content || '题目内容加载中...'}</span></p>
+                            <p><strong>题型：</strong>${err.type} | <strong>难度：</strong>${getDifficultyText(err.difficulty)}</p>
+                            <p><strong>你的答案：</strong><span style="color: #e53e3e;">${err.userAnswer}</span></p>
+                            <p><strong>正确答案：</strong><span style="color: #48bb78;">${err.correctAnswer}</span></p>
+                            <p><strong>解析：</strong><span class="question-analysis">${err.analysis || '暂无解析'}</span></p>
+                            <p style="font-size: 12px; color: #718096;">错误时间：${new Date(err.timestamp).toLocaleString('zh-CN')}</p>
+                            <hr style="margin: 15px 0;">
+                        `;
+                        errorList.appendChild(item);
+                        
+                        setTimeout(() => {
+                            renderMathJax(item.querySelector('.question-content'));
+                            renderMathJax(item.querySelector('.question-analysis'));
+                        }, 100);
+                    });
+                }
+            } catch (err) {
+                showToast('获取错题本失败：' + (err.response?.data?.error || '网络错误'),'error');
+            }
+        }
+
+        // 导出错题本
+        async function exportErrorBank() {
+            try {
+                // 先检查是否有错题
+                const checkRes = await axios.get(`${baseUrl}/error-bank`);
+                if (checkRes.data.length === 0) {
+                    showToast('错题本为空，无需导出','success');
+                    return;
+                }
+
+                // 使用更可靠的方法下载
+                const downloadLink = document.createElement('a');
+                downloadLink.href = `${baseUrl}/error-bank/export?t=${Date.now()}`;
+                downloadLink.target = '_blank'; // 在新窗口打开
+                downloadLink.download = '错题本.md'; // 设置默认文件名
+                
+                document.body.appendChild(downloadLink);
+                downloadLink.click();
+                document.body.removeChild(downloadLink);
+                
+            } catch (err) {
+                console.error('导出错误:', err);
+                showToast('导出失败：' + (err.response?.data?.error || '网络错误'),'error');
+            }
+        }
+
+        // 清空错题本
+        async function clearErrorBank() {
+            if (!confirm('确定要清空错题本吗？此操作不可恢复！')) {
+                return;
+            }
+            
+            try {
+                await axios.delete(`${baseUrl}/error-bank/clear`);
+                showToast('错题本已清空','success');
+                // 刷新错题本显示
+                showErrorBank();
+            } catch (err) {
+                showToast('清空失败：' + (err.response?.data?.error || '网络错误'),'error');
+            }
+        }
+
+        // 添加对手为好友
+        async function addOpponentAsFriend() {
+            if (!opponentUserId) {
+                showToast('无法找到对手信息','error');
+                return;
+            }
+            
+            try {
+                // 获取对手信息
+                const usersRes = await axios.get(`${baseUrl}/users`);
+                const opponentUser = usersRes.data.find(user => user.id === opponentUserId);
+                
+                if (!opponentUser) {
+                    showToast('对手信息不存在','error');
+                    return;
+                }
+                
+                const message = `你好！我是${currentUser.username}，刚刚和你进行了一场精彩的对战，想加你为好友继续切磋！`;
+                
+                const res = await axios.post(`${baseUrl}/friend-request`, {
+                    toUserId: opponentUserId,
+                    message: message
+                });
+                
+                showToast('好友申请已发送！','success');
+                document.getElementById('addFriendBtn').style.display = 'none';
+            } catch (err) {
+                console.error('发送好友申请失败:', err);
+                showToast('发送好友申请失败：' + (err.response?.data?.error || '网络错误'),'error');
+            }
+        }
+
+        // 发送好友申请
+        async function sendFriendRequest() {
+            const username = document.getElementById('friendUsername').value.trim();
+            const message = document.getElementById('friendRequestMessage').value.trim();
+            
+            if (!username) {
+                showToast('请输入对方用户名','error');
+                return;
+            }
+            
+            try {
+                // 先获取所有用户来查找目标用户
+                const usersRes = await axios.get(`${baseUrl}/users`);
+                const targetUser = usersRes.data.find(user => user.username === username);
+                
+                if (!targetUser) {
+                    showToast('用户不存在','error');
+                    return;
+                }
+                
+                if (targetUser.id === currentUser.id) {
+                    showToast('不能添加自己为好友','error');
+                    return;
+                }
+                
+                const res = await axios.post(`${baseUrl}/friend-request`, {
+                    toUserId: targetUser.id,
+                    message: message
+                });
+                
+                showToast('好友申请已发送！','success');
+                closeAddFriendModal();
+                
+            } catch (err) {
+                console.error('发送好友申请失败:', err);
+                showToast('发送好友申请失败：' + (err.response?.data?.error || '网络错误'),'error');
+            }
+        }
+
+        // 加载好友列表
+        async function loadFriends() {
+            try {
+                const res = await axios.get(`${baseUrl}/friends`);
+                const friends = res.data;
+                const friendsList = document.getElementById('friendsList');
+                
+                if (friends.length === 0) {
+                    friendsList.innerHTML = '<p style="text-align: center; color: #718096;">暂无好友</p>';
+                    return;
+                }
+                
+                friendsList.innerHTML = '';
+                friends.forEach(friend => {
+                    const friendItem = document.createElement('div');
+                    friendItem.className = `friend-item ${friend.online ? 'online' : 'offline'}`;
+                    friendItem.innerHTML = `
+                        <strong>${friend.username}</strong>
+                        <div style="font-size: 14px; color: #718096;">
+                            ${friend.online ? '🟢 在线' : '⚫ 离线'} | 
+                            积分: ${friend.score} | 
+                            胜率: ${friend.wins + friend.losses > 0 ? 
+                                Math.round((friend.wins / (friend.wins + friend.losses)) * 100) : 0}%
+                        </div>
+                    `;
+                    friendsList.appendChild(friendItem);
+                });
+            } catch (err) {
+                console.error('加载好友列表失败:', err);
+            }
+        }
+
+        // 加载好友申请
+        async function loadFriendRequests() {
+            try {
+                console.log('开始加载好友申请...');
+                
+                const res = await axios.get(`${baseUrl}/friend-requests`);
+                console.log('好友申请数据:', res.data);
+                
+                const requestsContainer = document.getElementById('friendRequests');
+                if (!requestsContainer) {
+                    console.error('错误: 找不到好友申请容器');
+                    return;
+                }
+
+                // 清空容器并添加加载样式
+                requestsContainer.innerHTML = '';
+                requestsContainer.style.minHeight = '200px';
+                requestsContainer.style.padding = '20px';
+                requestsContainer.style.border = '2px dashed #e2e8f0';
+                requestsContainer.style.borderRadius = '8px';
+
+                const pendingRequests = res.data.filter(req => req.status === 'pending');
+                console.log('待处理申请数量:', pendingRequests.length);
+
+                if (pendingRequests.length === 0) {
+                    requestsContainer.innerHTML = `
+                        <div style="text-align: center; color: #718096; padding: 40px;">
+                            <div style="font-size: 48px; margin-bottom: 10px;">📭</div>
+                            <h3>暂无好友申请</h3>
+                            <p>当有人向你发送好友申请时，会显示在这里</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                // 创建申请列表
+                const listContainer = document.createElement('div');
+                listContainer.style.width = '100%';
+                
+                pendingRequests.forEach((request, index) => {
+                    console.log(`创建申请项 ${index + 1}:`, request);
+                    
+                    const requestItem = document.createElement('div');
+                    requestItem.style.cssText = `
+                        background: white;
+                        border: 2px solid #e2e8f0;
+                        border-radius: 12px;
+                        padding: 20px;
+                        margin: 15px 0;
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                        transition: all 0.3s ease;
+                    `;
+                    requestItem.onmouseover = () => {
+                        requestItem.style.borderColor = '#4299e1';
+                        requestItem.style.boxShadow = '0 4px 12px rgba(66, 153, 225, 0.2)';
+                    };
+                    requestItem.onmouseout = () => {
+                        requestItem.style.borderColor = '#e2e8f0';
+                        requestItem.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)';
+                    };
+
+                    requestItem.innerHTML = `
+                        <div style="flex: 1;">
+                            <div style="display: flex; align-items: center; margin-bottom: 8px;">
+                                <div style="width: 40px; height: 40px; background: #4299e1; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; margin-right: 12px;">
+                                    ${request.fromUsername?.charAt(0)?.toUpperCase() || '?'}
+                                </div>
+                                <div>
+                                    <h4 style="margin: 0; color: #2d3748; font-size: 18px;">${request.fromUsername}</h4>
+                                    <div style="font-size: 12px; color: #718096; margin-top: 2px;">
+                                        ${new Date(request.createdAt).toLocaleString('zh-CN')}
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="color: #4a5568; font-size: 14px; line-height: 1.4; background: #f7fafc; padding: 12px; border-radius: 6px; margin: 8px 0;">
+                                ${request.message || '想添加您为好友'}
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 10px; margin-left: 20px;">
+                            <button onclick="respondToFriendRequest('${request.id}', 'accept')" 
+                                    style="background: #48bb78; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; transition: background 0.3s;">
+                                ✓ 接受
+                            </button>
+                            <button onclick="respondToFriendRequest('${request.id}', 'reject')" 
+                                    style="background: #e53e3e; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; transition: background 0.3s;">
+                                ✗ 拒绝
+                            </button>
+                        </div>
+                    `;
+
+                    listContainer.appendChild(requestItem);
+                });
+
+                requestsContainer.appendChild(listContainer);
+                console.log('好友申请列表加载完成');
+
+            } catch (err) {
+                console.error('加载好友申请失败:', err);
+                const requestsContainer = document.getElementById('friendRequests');
+                if (requestsContainer) {
+                    requestsContainer.innerHTML = `
+                        <div style="text-align: center; color: #e53e3e; padding: 40px;">
+                            <div style="font-size: 48px; margin-bottom: 10px;">❌</div>
+                            <h3>加载失败</h3>
+                            <p>${err.response?.data?.error || '网络错误，请刷新重试'}</p>
+                            <button onclick="loadFriendRequests()" style="background: #4299e1; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; margin-top: 10px;">
+                                重新加载
+                            </button>
+                        </div>
+                    `;
+                }
+            }
+        }
+
+        // 处理好友申请
+        async function respondToFriendRequest(requestId, action) {
+            try {
+                console.log(`处理好友申请: ${requestId}, 动作: ${action}`);
+                
+                const res = await axios.post(`${baseUrl}/friend-request/respond`, {
+                    requestId: requestId,
+                    action: action
+                });
+                
+                showToast(action === 'accept' ? '已接受好友申请' : '已拒绝好友申请','success');
+                
+                // 重新加载申请列表和好友列表
+                await loadFriendRequests();
+                await loadFriends();
+                
+            } catch (err) {
+                console.error('处理好友申请失败:', err);
+                showToast('操作失败：' + (err.response?.data?.error || '网络错误'),'error');
+            }
+        }
+
+        // 添加好友模态框控制函数
+        function showAddFriendModal() {
+            document.getElementById('addFriendModal').style.display = 'flex';
+        }
+        
+        function closeAddFriendModal() {
+            document.getElementById('addFriendModal').style.display = 'none';
+            // 清空表单
+            document.getElementById('friendUsername').value = '';
+            document.getElementById('friendRequestMessage').value = '';
+        }
+
+        // 加载聊天好友列表
+        async function loadChatFriends() {
+            try {
+                const res = await axios.get(`${baseUrl}/friends`);
+                const friends = res.data;
+                const chatFriendsList = document.getElementById('chatFriendsList');
+                
+                if (friends.length === 0) {
+                    chatFriendsList.innerHTML = '<p style="text-align: center; color: #718096;">暂无好友，先去添加好友吧！</p>';
+                    return;
+                }
+                
+                chatFriendsList.innerHTML = '';
+                friends.forEach(friend => {
+                    const friendItem = document.createElement('div');
+                    friendItem.className = `chat-friend-item ${friend.online ? 'online' : 'offline'}`;
+                    friendItem.innerHTML = `
+                        <strong>${friend.username}</strong>
+                        <div style="font-size: 12px; color: #718096;">${friend.online ? '在线' : '离线'}</div>
+                    `;
+                    friendItem.onclick = () => selectChatFriend(friend);
+                    chatFriendsList.appendChild(friendItem);
+                });
+            } catch (err) {
+                console.error('加载聊天好友失败:', err);
+            }
+        }
+
+        // 选择聊天好友
+        async function selectChatFriend(friend) {
+            currentChatFriend = friend;
+            
+            // 更新UI
+            document.querySelectorAll('.chat-friend-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            event.target.closest('.chat-friend-item').classList.add('active');
+            
+            document.getElementById('chatWithUser').textContent = `与 ${friend.username} 聊天`;
+            document.getElementById('chatInput').disabled = false;
+            document.getElementById('sendChatBtn').disabled = false;
+            
+            // 加载聊天记录
+            await loadChatMessages(friend.id);
+        }
+
+        // 加载聊天记录
+        async function loadChatMessages(friendId) {
+            try {
+                const res = await axios.get(`${baseUrl}/chat/${friendId}`);
+                const messages = res.data;
+                const chatMessages = document.getElementById('chatMessages');
+                
+                chatMessages.innerHTML = '';
+                messages.forEach(message => {
+                    addMessageToChat(message, false);
+                });
+                
+                // 滚动到底部
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            } catch (err) {
+                console.error('加载聊天记录失败:', err);
+            }
+        }
+
+        // 发送聊天消息
+        async function sendChatMessage() {
+            if (!currentChatFriend) {
+                showToast('请先选择聊天好友','error');
+                return;
+            }
+            
+            const input = document.getElementById('chatInput');
+            const content = input.value.trim();
+            
+            if (!content) {
+                showToast('请输入消息内容','error');
+                return;
+            }
+            
+            // 通过 WebSocket 发送消息
+            if (ws && ws.readyState === WebSocket.OPEN) {
+                ws.send(JSON.stringify({
+                    type: 'chat_message',
+                    toUserId: currentChatFriend.id,
+                    content: content
+                }));
+                
+                input.value = '';
+            } else {
+                showToast('连接已断开，请刷新页面','error');
+            }
+            await loadChatMessages(currentChatFriend.id);// 发送后刷新聊天记录 包含自己的消息
+        }
+
+        // 添加消息到聊天界面
+        function addMessageToChat(message, isNew = true) {
+            const chatMessages = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            
+            const isOwn = message.from === currentUser.id;
+            messageDiv.className = `chat-message ${isOwn ? 'own' : 'other'}`;
+            
+            const time = new Date(message.timestamp).toLocaleTimeString('zh-CN', {
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            
+            messageDiv.innerHTML = `
+                <div>${message.content}</div>
+                <div class="message-time">${time}</div>
+            `;
+            
+            chatMessages.appendChild(messageDiv);
+            
+            if (isNew) {
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+        }
+
+        // 维持心跳连接
+        setInterval(() => {
+            if (ws && ws.readyState === WebSocket.OPEN) {
+                ws.send(JSON.stringify({ type: 'heartbeat' }));
+            }
+        }, 30000);
+
+        // 页面加载完成后初始化
+        window.onload = async () => {
+            console.log('页面加载完成，开始初始化...');
+            const savedUser = localStorage.getItem('currentUser');
+            if (savedUser) {
+                try {
+                    currentUser = JSON.parse(savedUser);
+                    console.log('找到已登录用户:', currentUser.username);
+                    await updateUserInfo();
+                    showModule('gameModule');
+                    initWebSocket();
+                } catch (e) {
+                    console.error('恢复登录状态失败:', e);
+                    localStorage.removeItem('currentUser');
+                    showModule('loginModule');
+                }
+            } else {
+                console.log('没有找到登录用户，显示登录界面');
+                showModule('loginModule');
+            }
+            console.log('初始化完成');
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+[
+  {
+    "id": "user-a9caace9-0275-42a4-92b0-3e6b2e323969",
+    "username": "123456",
+    "password": "1",
+    "email": "1",
+    "score": 230,
+    "wins": 20,
+    "losses": 18,
+    "createdAt": "2025-11-08T05:45:33.810Z"
+  },
+  {
+    "id": "user-3d054521-dba8-490a-9ee4-a7cd0685c43b",
+    "username": "123",
+    "password": "123456",
+    "email": "123456@qq.com",
+    "score": 180,
+    "wins": 19,
+    "losses": 20,
+    "createdAt": "2025-11-08T06:02:02.914Z"
+  },
+  {
+    "id": "user-f9d70a1e-1357-45e6-ac3a-bb3eff847bc1",
+    "username": "xkx",
+    "password": "123456",
+    "email": "q@qq.com",
+    "score": 990,
+    "wins": 2,
+    "losses": 4,
+    "createdAt": "2025-11-09T11:32:22.288Z"
+  },
+  {
+    "id": "user-09029d5c-b7c6-4ba3-ad1e-3b480de8a92c",
+    "username": "yhy123456",
+    "password": "yhy123456",
+    "email": "i@qq.com",
+    "score": 1065,
+    "wins": 2,
+    "losses": 1,
+    "createdAt": "2025-11-09T12:58:46.581Z"
+  }
+]

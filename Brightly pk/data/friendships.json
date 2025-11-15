@@ -1,0 +1,28 @@
+[
+  {
+    "userId": "user-3d054521-dba8-490a-9ee4-a7cd0685c43b",
+    "friendIds": [
+      "user-a9caace9-0275-42a4-92b0-3e6b2e323969"
+    ]
+  },
+  {
+    "userId": "user-a9caace9-0275-42a4-92b0-3e6b2e323969",
+    "friendIds": [
+      "user-3d054521-dba8-490a-9ee4-a7cd0685c43b",
+      "user-f9d70a1e-1357-45e6-ac3a-bb3eff847bc1"
+    ]
+  },
+  {
+    "userId": "user-f9d70a1e-1357-45e6-ac3a-bb3eff847bc1",
+    "friendIds": [
+      "user-a9caace9-0275-42a4-92b0-3e6b2e323969",
+      "user-09029d5c-b7c6-4ba3-ad1e-3b480de8a92c"
+    ]
+  },
+  {
+    "userId": "user-09029d5c-b7c6-4ba3-ad1e-3b480de8a92c",
+    "friendIds": [
+      "user-f9d70a1e-1357-45e6-ac3a-bb3eff847bc1"
+    ]
+  }
+]

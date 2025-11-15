@@ -1,0 +1,257 @@
+[
+{
+"id": "q1",
+"difficulty": "easy",
+"type": "choice",
+"title": "复数的模",
+"content": "已知复数\\(z\\)满足\\(z\\cdot(1+\\text{i})=\\text{i}\\)，则\\(|z|=\\)",
+"options": ["\\(\\dfrac{1}{2}\\)", "\\(\\dfrac{\\sqrt{2}}{2}\\)", "1", "\\(\\sqrt{2}\\)"],
+"answer": "B",
+"analysis": " \\(z=\\dfrac{\\text{i}}{1+\\text{i}}=\\dfrac{\\text{i}(1-\\text{i})}{2}=\\dfrac{1}{2}+\\dfrac{1}{2}\\text{i}\\)，则\\(|z|=\\dfrac{\\sqrt{2}}{2}\\)"
+},
+{
+"id": "q2",
+"difficulty": "easy",
+"type": "choice",
+"title": "等比数列的单调性与充分必要条件",
+"content": "对于正项等比数列\\(\\{a_n\\}\\)，“\\(a_4>a_2\\)”是“数列\\(\\{a_n\\}\\)是单调递增数列”的（）条件.",
+"options": ["充分不必要", "必要不充分", "充分必要", "既不充分也不必要"],
+"answer": "C",
+"analysis": "一方面，\\(a_4>a_2\\Rightarrow a_2q^2>a_2\\)，因为\\(a_n>0\\)，则\\(q^2>1\\Rightarrow q>1\\)或\\(q<-1\\)，舍负，故\\(q>1\\)，则\\(\\{a_n\\}\\)单调递增，反之，\\(\\{a_n\\}\\)单调递增，可以得\\(a_4>a_2\\)，故为充分必要条件"
+},
+{
+"id": "q3",
+"difficulty": "easy",
+"type": "choice",
+"title": "向量的投影向量",
+"content": "已知\\(|\\overrightarrow{a}+\\overrightarrow{b}|=|\\overrightarrow{a}|\\)，\\(|\\overrightarrow{b}|=1\\)，则向量\\(\\overrightarrow{a}\\)在\\(\\overrightarrow{b}\\)方向上的投影向量为",
+"options": ["\\(-2\\overrightarrow{b}\\)", "\\(-\\dfrac{1}{2}\\overrightarrow{b}\\)", "\\(\\dfrac{1}{2}\\overrightarrow{b}\\)", "2\\overrightarrow{b}\\)"],
+"answer": "B",
+"analysis": "因为\\(|\\overrightarrow{a}+\\overrightarrow{b}|=|\\overrightarrow{a}|\\)，两边平方得：\\((\\overrightarrow{a})^2+2\\overrightarrow{a}\\cdot\\overrightarrow{b}+(\\overrightarrow{b})^2=(\\overrightarrow{a})^2\\Rightarrow2|\\overrightarrow{a}|\\cos\\langle\\overrightarrow{a},\\overrightarrow{b}\\rangle+1=0\\)，则\\(|\\overrightarrow{a}|\\cos\\langle\\overrightarrow{a},\\overrightarrow{b}\\rangle=-\\dfrac{1}{2}\\)，则\\(\\overrightarrow{a}\\)在\\(\\overrightarrow{b}\\)方向上的投影向量为\\(|\\overrightarrow{a}|\\cos\\langle\\overrightarrow{a},\\overrightarrow{b}\\rangle\\dfrac{\\overrightarrow{b}}{|\\overrightarrow{b}|}=-\\dfrac{1}{2}\\overrightarrow{b}\\)"
+},
+{
+"id": "q4",
+"difficulty": "medium",
+"type": "choice",
+"title": "组合计数与平行六面体构成",
+"content": "空间中有三组平行平面，第一组有3个，第二组有2个，第三组有4个，不同两组的平面都相交，且交线不都平行，则这些平面可以构成平行六面体的个数为",
+"options": ["12", "18", "24", "30"],
+"answer": "B",
+"analysis": "若要确定一个平行六面体，则三组平行平面每组都要取2个平面，即为\\(C_3^2C_2^2C_4^2=18\\)"
+},
+{
+"id": "q6",
+"difficulty": "medium",
+"type": "choice",
+"title": "指数与对数转换",
+"content": "已知\\(2^x=3^y=5^z(x,y,z\\neq0)\\)，且\\(\\dfrac{1}{x}+\\dfrac{1}{y}=\\dfrac{a}{z}\\)，则\\(a=\\)",
+"options": ["\\(\\log_23\\)", "\\(\\log_25\\)", "\\(\\log_35\\)", "\\(\\log_56\\)"],
+"answer": "D",
+"analysis": "令\\(2^x=3^y=5^z=t>0,t\\neq1\\)，则\\(x=\\log_2t,y=\\log_3t,z=\\log_5t\\)，\\(\\dfrac{1}{x}+\\dfrac{1}{y}=\\log_t2+\\log_t3=\\log_t6\\)，所以\\(a=\\log_t6\\cdot\\log_5t=\\log_56\\)"
+},
+{
+"id": "q7",
+"difficulty": "hard",
+"type": "choice",
+"title": "三角恒等变换",
+"content": "已知\\(\\cos(\\alpha-\\beta)=\\dfrac{1}{3}\\)，且\\(\\tan\\alpha\\tan\\beta=\\dfrac{1}{2}\\)，则\\(\\cos(2\\alpha+2\\beta)=\\)",
+"options": ["\\(-\\dfrac{79}{81}\\)", "\\(-\\dfrac{80}{81}\\)", "\\(\\dfrac{79}{81}\\)", "\\(\\dfrac{80}{81}\\)"],
+"answer": "A",
+"analysis": "∵\\(\\cos(\\alpha-\\beta)=\\dfrac{1}{3}\\)，∴\\(\\cos\\alpha\\cos\\beta+\\sin\\alpha\\sin\\beta=\\dfrac{1}{3}\\)①，由\\(\\tan\\alpha\\tan\\beta=\\dfrac{1}{2}\\Rightarrow\\dfrac{\\sin\\alpha}{\\cos\\alpha}\\cdot\\dfrac{\\sin\\beta}{\\cos\\beta}=\\dfrac{1}{2}\\)②，由①、②可得\\(\\sin\\alpha\\sin\\beta=\\dfrac{1}{9}\\)，\\(\\cos\\alpha\\cos\\beta=\\dfrac{2}{9}\\)，\\(\\cos(\\alpha+\\beta)=\\cos\\alpha\\cos\\beta-\\sin\\alpha\\sin\\beta=\\dfrac{1}{9}\\)，则\\(\\cos(2\\alpha+2\\beta)=2\\cos^2(\\alpha+\\beta)-1=-\\dfrac{79}{81}\\)"
+},
+
+
+{
+"id": "q9",
+"difficulty": "easy",
+"type": "choice",
+"title": "集合的交集与元素个数",
+"content": "设集合\\(A=\\{-1,0,1,2\\},B=\\{x|x^2-x-2<0\\}\\),则\\(A\\cap B\\)中的元素个数为",
+"options": ["4", "3", "2", "1"],
+"answer": "C",
+"analysis": "由\\(A\\cap B=\\{-1,0,1,2\\}\\cap\\{x|-1<x<2\\}=\\{0,1\\}\\)，所以\\(A\\cap B\\)中有2个元素"
+},
+{
+"id": "q10",
+"difficulty": "easy",
+"type": "choice",
+"title": "复数的运算与共轭复数",
+"content": "已知复数\\(z\\)在复平面内对应的点为\\((-2,2)\\),则\\(\\dfrac{1}{z}=\\)",
+"options": ["\\(-\\dfrac{1}{4}+\\dfrac{1}{4}\\text{i}\\)", "\\(\\dfrac{1}{4}+\\dfrac{1}{4}\\text{i}\\)", "\\(\\dfrac{1}{4}-\\dfrac{1}{4}\\text{i}\\)", "\\(-\\dfrac{1}{4}-\\dfrac{1}{4}\\text{i}\\)"],
+"answer": "D",
+"analysis": "由题意\\(z=-2+2\\text{i}\\)，则\\(\\dfrac{1}{z}=\\dfrac{1}{-2+2\\text{i}}=\\dfrac{-2-2\\text{i}}{(-2+2\\text{i})(-2-2\\text{i})}=\\dfrac{-2-2\\text{i}}{8}=-\\dfrac{1}{4}-\\dfrac{1}{4}\\text{i}\\)"
+},
+{
+"id": "q11",
+"difficulty": "medium",
+"type": "choice",
+"title": "圆锥的侧面展开图与体积",
+"content": "已知圆锥的侧面展开图是半径为3的半圆,则该圆锥的体积为",
+"options": ["\\(\\dfrac{2\\pi}{3}\\)", "\\(\\dfrac{2\\sqrt{2}}{3}\\pi\\)", "\\(\\dfrac{9\\sqrt{3}\\pi}{2}\\)", "\\(\\dfrac{9\\sqrt{3}}{8}\\pi\\)"],
+"answer": "D",
+"analysis": "设圆锥底面圆的半径为\\(r\\)，高为\\(h\\)，母线长为\\(l\\)，则\\(l=3\\)，\\(2\\pi r=3\\pi\\)，所以\\(r=\\dfrac{3}{2}\\)，\\(h=\\sqrt{l^2-r^2}=\\dfrac{3\\sqrt{3}}{2}\\)，该圆锥的体积为\\(\\dfrac{1}{3}\\pi r^2 h=\\dfrac{1}{3}\\pi\\times\\left(\\dfrac{3}{2}\\right)^2\\times\\dfrac{3\\sqrt{3}}{2}=\\dfrac{9\\sqrt{3}}{8}\\pi\\)"
+},
+{
+"id": "q12",
+"difficulty": "medium",
+"type": "choice",
+"title": "指数对数方程与遗忘曲线",
+"content": "某同学记忆率\\(y\\)与初次记忆经过的时间\\(x\\)（单位：小时）的函数关系式为\\(y=1-0.5x^{0.06}\\)，当记住的单词仅剩25个时，离初次记忆经过了（参考数据：\\(\\lg2\\approx0.30,\\lg3\\approx0.48\\)）",
+"options": ["100小时", "300小时", "1000小时", "3000小时"],
+"answer": "C",
+"analysis": "由题意得\\(100(1-0.5x^{0.06})=25\\)，即\\(x^{0.06}=\\dfrac{3}{2}\\)，两边取以10为底的对数，得\\(0.06\\lg x=\\lg3-\\lg2\\approx0.18\\)，所以\\(\\lg x=3\\)，\\(x=1000\\)"
+},
+{
+"id": "q13",
+"difficulty": "medium",
+"type": "choice",
+"title": "三角恒等变换与两角差的余弦",
+"content": "已知\\(\\cos\\alpha-\\cos\\beta=\\dfrac{1}{3},\\sin\\alpha-\\sin\\beta=\\dfrac{\\sqrt{3}}{2}\\),则\\(\\cos(\\beta-\\alpha)=\\)",
+"options": ["\\(-\\dfrac{41}{72}\\)", "\\(\\dfrac{41}{72}\\)", "\\(-\\dfrac{49}{72}\\)", "\\(\\dfrac{49}{72}\\)"],
+"answer": "B",
+"analysis": "对\\(\\cos\\alpha-\\cos\\beta=\\dfrac{1}{3}\\)两边平方得\\(\\cos^2\\alpha-2\\cos\\alpha\\cos\\beta+\\cos^2\\beta=\\dfrac{1}{9}\\)①，对\\(\\sin\\alpha-\\sin\\beta=\\dfrac{\\sqrt{3}}{2}\\)两边平方得\\(\\sin^2\\alpha-2\\sin\\alpha\\sin\\beta+\\sin^2\\beta=\\dfrac{3}{4}\\)②，①+②得\\(2-2(\\cos\\alpha\\cos\\beta+\\sin\\alpha\\sin\\beta)=\\dfrac{31}{36}\\)，即\\(2-2\\cos(\\beta-\\alpha)=\\dfrac{31}{36}\\)，解得\\(\\cos(\\beta-\\alpha)=\\dfrac{41}{72}\\)"
+},
+{
+"id": "q14",
+"difficulty": "medium",
+"type": "choice",
+"title": "排列组合与任务分配",
+"content": "由甲、乙、丙三名志愿者负责A,B,C,D四个任务，每人至少负责一个任务，每个任务都有且仅有一人负责，且甲不负责A任务，则不同的任务分配方法种数为",
+"options": ["12", "18", "24", "30"],
+"answer": "C",
+"analysis": "若甲负责两个任务，剩余两个任务排给乙、丙两人，有\\(C_3^2A_2^2=6\\)种分配方法；若甲只负责一个任务，先在B、C、D中选取一个任务分给甲，再将剩下3个任务分为两组分配给乙、丙两人，有\\(C_3^1C_3^2A_2^2=18\\)种分配方法。由分类加法计数原理，不同的分配方法种数为\\(6+18=24\\)"
+},
+{
+"id": "q15",
+"difficulty": "hard",
+"type": "choice",
+"title": "双曲线的离心率",
+"content": "已知\\(F\\)是双曲线\\(\\dfrac{x^2}{a^2}-\\dfrac{y^2}{b^2}=1(a>0,b>0)\\)的右焦点，过点\\(F\\)作垂直于\\(x\\)轴的直线与双曲线交于\\(P\\)，\\(Q\\)两点，\\(A_1,A_2\\)分别为双曲线的左、右顶点，连接\\(A_1P\\)交\\(y\\)轴于点\\(B\\)，连接\\(BA_2\\)并延长交\\(PQ\\)于点\\(C\\)，且\\(3\\overrightarrow{FC}=\\overrightarrow{FQ}\\)，则双曲线的离心率为",
+"options": ["2", "\\(\\dfrac{5}{3}\\)", "3", "\\(\\dfrac{5}{2}\\)"],
+"answer": "A",
+"analysis": "由题意得\\(P\\left(c,\\dfrac{b^2}{a}\\right),Q\\left(c,-\\dfrac{b^2}{a}\\right)\\)，\\(A_1(-a,0)\\)，直线\\(PA_1\\)方程为\\(y=\\dfrac{b^2}{a(c+a)}(x+a)\\)，令\\(x=0\\)得\\(B\\left(0,\\dfrac{b^2}{c+a}\\right)\\)，直线\\(BA_2\\)方程为\\(y=-\\dfrac{b^2}{a(c+a)}(x-a)\\)，令\\(x=c\\)得\\(y_C=-\\dfrac{b^2(c-a)}{a(c+a)}\\)。由\\(3\\overrightarrow{FC}=\\overrightarrow{FQ}\\)得\\(3\\times\\left(-\\dfrac{b^2(c-a)}{a(c+a)}\\right)=-\\dfrac{b^2}{a}\\)，整理得\\(2c=4a\\)，所以离心率\\(e=\\dfrac{c}{a}=2\\)"
+},
+{
+"id": "q16",
+"difficulty": "hard",
+"type": "choice",
+"title": "平面向量的模与最值",
+"content": "已知平面向量\\(a,b,e\\)，且\\(|e|=1,|a|=2\\)，向量\\(b\\)与\\(e\\)所成的角为\\(60^\\circ\\)，且\\(|b-te|\\geq|b-e|\\)对任意实数\\(t\\)恒成立，则\\(|a+e|+\\left|\\dfrac{1}{2}a-b\\right|\\)的最小值为",
+"options": ["\\(\\sqrt{3}+1\\)", "2\\(\\sqrt{3}\\)", "\\(\\sqrt{3}+\\sqrt{5}\\)", "2\\(\\sqrt{5}\\)"],
+"answer": "B",
+"analysis": "由\\(b\\cdot e=|b|\\cdot|e|\\cos60^\\circ=\\dfrac{1}{2}|b|\\)，由\\(|b-te|\\geq|b-e|\\)两边平方整理得\\(t^2-|b|t-1+|b|\\geq0\\)对任意实数\\(t\\)恒成立，故\\(\\Delta=|b|^2-4(-1+|b|)\\leq0\\)，解得\\(|b|=2\\)。则\\(|a+e|+\\left|\\dfrac{1}{2}a-b\\right|=\\left|\\dfrac{1}{2}a+2e\\right|+\\left|\\dfrac{1}{2}a-b\\right|\\geq\\left|2e+b\\right|=2\\sqrt{3}\\)，当且仅当\\(\\dfrac{1}{2}a+2e\\)与\\(\\dfrac{1}{2}a-b\\)反向时等号成立"
+},
+
+{
+"id": "q17",
+"difficulty": "easy",
+"type": "choice",
+"title": "集合的交集运算",
+"content": "已知集合\\(A=\\{3^{x} \\mid 1 \\lt x \\leq 9\\},B=\\{x \\in \\mathbb{Z} \\mid x \\geq 1\\}\\)，则\\(A \\cap B=\\)",
+"options": ["\\((1,2]\\)", "\\(\\{1,2\\}\\)", "\\([1,2]\\)", "\\(\\{1\\}\\)"],
+"answer": "B",
+"analysis": "集合\\(A=\\{x|0<x\\leq2\\}\\)，\\(B=\\{x\\in\\mathbb{Z}|x\\geq1\\}\\)，故\\(A\\cap B=\\{1,2\\}\\)"
+},
+{
+"id": "q18",
+"difficulty": "easy",
+"type": "choice",
+"title": "复数的运算与模的平方",
+"content": "设复数\\(z\\)满足\\(\\dfrac{2-z}{1+z}=\\text{i}\\)，则\\(z\\cdot\\overline{z}=\\)",
+"options": ["\\(\\dfrac{\\sqrt{10}}{2}\\)", "\\(\\sqrt{10}\\)", "\\(\\dfrac{5}{2}\\)", "5"],
+"answer": "C",
+"analysis": "由\\(\\dfrac{2-z}{1+z}=\\text{i}\\)得\\(z=\\dfrac{2-\\text{i}}{1+\\text{i}}=\\dfrac{1}{2}-\\dfrac{3}{2}\\text{i}\\)，则\\(z\\cdot\\overline{z}=\\left(\\dfrac{1}{2}\\right)^2+\\left(\\dfrac{3}{2}\\right)^2=\\dfrac{5}{2}\\)"
+},
+{
+"id": "q19",
+"difficulty": "easy",
+"type": "choice",
+"title": "等差数列与等比数列的综合应用",
+"content": "已知\\(\\{\\log_2a_n\\}\\)是等差数列，\\(T_n\\)是数列\\(\\{a_n\\}\\)的前\\(n\\)项积，若\\(a_3=3\\)，则\\(T_5=\\)",
+"options": ["15", "21", "108", "243"],
+"answer": "D",
+"analysis": "因为\\(\\{\\log_2a_n\\}\\)是等差数列，所以\\(\\{a_n\\}\\)是等比数列，故\\(T_5=a_1a_2a_3a_4a_5=a_3^5=3^5=243\\)"
+},
+{
+"id": "q20",
+"difficulty": "medium",
+"type": "choice",
+"title": "三角恒等变换与角度关系",
+"content": "设\\(\\alpha\\in\\left(0,\\dfrac{\\pi}{2}\\right)\\)，\\(\\beta\\in\\left(0,\\dfrac{\\pi}{2}\\right)\\)，且\\(\\tan\\alpha+\\tan\\beta=\\dfrac{1}{\\cos\\beta}\\)，则",
+"options": ["\\(3\\alpha-\\beta=\\dfrac{\\pi}{2}\\)", "2\\(\\alpha-\\beta=\\dfrac{\\pi}{2}\\)", "3\\(\\alpha+\\beta=\\dfrac{\\pi}{2}\\)", "2\\(\\alpha+\\beta=\\dfrac{\\pi}{2}\\)"],
+"answer": "D",
+"analysis": "由\\(\\tan\\alpha+\\tan\\beta=\\dfrac{1}{\\cos\\beta}\\)得\\(\\dfrac{\\sin\\alpha}{\\cos\\alpha}+\\dfrac{\\sin\\beta}{\\cos\\beta}=\\dfrac{1}{\\cos\\beta}\\)，整理得\\(\\sin(\\alpha+\\beta)=\\cos\\alpha=\\sin\\left(\\dfrac{\\pi}{2}-\\alpha\\right)\\)，结合角度范围可得\\(2\\alpha+\\beta=\\dfrac{\\pi}{2}\\)"
+},
+{
+"id": "q21",
+"difficulty": "medium",
+"type": "choice",
+"title": "函数图象的对称性与交点和",
+"content": "已知函数\\(f(x)\\)定义域为\\(\\mathbb{R}\\)且满足\\(f(x)=6-f(-x)\\)，\\(g(x)=\\dfrac{f(x)-f(-x)}{2}+3\\)，若\\(f(x)\\)的图象与\\(g(x)\\)的图象的交点分别为\\((x_1,y_1),(x_2,y_2),\\cdots,(x_m,y_m)\\)，则\\(\\sum_{i=1}^m(x_i+y_i)=\\)",
+"options": ["0", "m", "2m", "3m"],
+"answer": "D",
+"analysis": "由\\(f(x)=6-f(-x)\\)知\\(f(x)\\)图象关于\\((0,3)\\)对称，\\(g(x)\\)图象也关于\\((0,3)\\)对称，故交点关于\\((0,3)\\)对称，所以\\(\\sum_{i=1}^m x_i=0\\)，\\(\\sum_{i=1}^m y_i=3m\\)，则\\(\\sum_{i=1}^m(x_i+y_i)=3m\\)"
+},
+{
+"id": "q22",
+"difficulty": "medium",
+"type": "choice",
+"title": "二项式定理与系数绝对值和",
+"content": "已知\\((x^2-x+2)^n=a_0+a_1x+a_2x^2+\\cdots+a_{2n}x^{2n}\\)，若\\(|a_0|+|a_1|+\\cdots+|a_{2n}|=4096\\)，则\\(a_3=\\)",
+"options": ["-640", "-200", "-160", "-40"],
+"answer": "A",
+"analysis": "令\\(x=-1\\)，得\\(4^n=|a_0|+|a_1|+\\cdots+|a_{2n}|=4096=4^6\\)，故\\(n=6\\)。展开式中\\(a_3x^3\\)的系数为\\(C_6^3(-x)^3C_3^32^3 + C_6^1x^2C_5^2(-x)^1C_3^32^3=-640\\)，即\\(a_3=-640\\)"
+},
+{
+"id": "q23",
+"difficulty": "hard",
+"type": "choice",
+"title": "双曲线的定义与最值",
+"content": "点\\(F_2\\)是双曲线\\(C:\\dfrac{x^2}{4}-\\dfrac{y^2}{8}=1\\)的右焦点，动点\\(A\\)在双曲线左支上，直线\\(l_1:x-y-4=0\\)与直线\\(l_2:x+y=0\\)的交点为\\(B\\)，则\\(|AB|+|AF_2|\\)的最小值为",
+"options": ["6", "7", "8", "9"],
+"answer": "A",
+"analysis": "由双曲线定义知\\(|AF_2|=|AF_1|+4\\)（\\(F_1\\)为左焦点），则\\(|AB|+|AF_2|=|AB|+|AF_1|+4\\)。\\(B\\)的轨迹是以\\((0,-4)\\)和\\((0,0)\\)为直径端点的圆，圆心\\(M(0,-2)\\)，半径2。当\\(A,F_1,B\\)共线时，\\(|AB|+|AF_1|\\)最小为\\(|MF_1|-2=\\sqrt{(-2\\sqrt{3})^2+2^2}-2=4\\)，故\\(|AB|+|AF_2|\\)最小值为\\(4+4-2=6\\)"
+},
+{
+"id": "q24",
+"difficulty": "hard",
+"type": "choice",
+"title": "代数式的取值范围",
+"content": "已知\\(x,y\\in\\mathbb{R}\\)，满足\\(x^2+2xy+4y^2=6\\)，则\\(z=x^2+4y^2\\)的取值范围为",
+"options": ["[4,12]", "[4,+\\infty)", "[0,6]", "[4,6]"],
+"answer": "A",
+"analysis": "将\\(x^2+2xy+4y^2=6\\)化为\\((x+y)^2+(\\sqrt{3}y)^2=6\\)，设参数方程\\(\\begin{cases}x+y=\\sqrt{6}\\cos\\theta\\\\\\sqrt{3}y=\\sqrt{6}\\sin\\theta\\end{cases}\\)，解得\\(x=\\sqrt{6}\\cos\\theta-\\sqrt{2}\\sin\\theta\\)，\\(y=\\sqrt{2}\\sin\\theta\\)。则\\(z=6\\cos^2\\theta+10\\sin^2\\theta-4\\sqrt{3}\\sin\\theta\\cos\\theta=8-4\\sin\\left(\\theta+\\dfrac{\\pi}{6}\\right)\\)，由\\(\\sin\\left(\\theta+\\dfrac{\\pi}{6}\\right)\\in[-1,1]\\)得\\(z\\in[4,12]\\)"
+},
+
+
+{
+  "id": "q30",
+  "difficulty": "easy",
+  "type": "fill",
+  "title": "向量夹角问题",
+  "content": "已知平面向量\\(\\vec{a}\\),\\(\\vec{b}\\)满足\\(|\\vec{a}|=|\\vec{b}|=|\\vec{a}+\\vec{b}|\\)，则\\(\\vec{a}\\)与\\(\\vec{b}-\\vec{a}\\)夹角的大小为______。",
+  "options": [],
+  "answer": "\\dfrac{5\\pi}{6}",
+  "analysis": "因为平面向量\\(\\vec{a}\\),\\(\\vec{b}\\)满足\\(|\\vec{a}|=|\\vec{b}|=|\\vec{a}+\\vec{b}|\\)，所以\\(|\\vec{a}+\\vec{b}|^2=|\\vec{a}|^2\\)，即\\(|\\vec{a}|^2+2\\vec{a}\\cdot\\vec{b}+|\\vec{b}|^2=|\\vec{a}|^2\\)，又\\(|\\vec{a}|=|\\vec{b}|\\)，所以\\(\\vec{a}\\cdot\\vec{b}=-\\dfrac{1}{2}|\\vec{a}|^2\\)。设\\(\\vec{a}\\)与\\(\\vec{b}-\\vec{a}\\)夹角为\\(\\alpha\\)，则\\(\\cos\\alpha=\\dfrac{\\vec{a}\\cdot(\\vec{b}-\\vec{a})}{|\\vec{a}|\\cdot|\\vec{b}-\\vec{a}|}=\\dfrac{-\\dfrac{3}{2}|\\vec{a}|^2}{|\\vec{a}|\\cdot\\sqrt{3}|\\vec{a}|}=-\\dfrac{\\sqrt{3}}{2}\\)，又因\\(\\alpha\\in[0,\\pi]\\)，所以\\(\\alpha=\\dfrac{5\\pi}{6}\\)。"
+},
+{
+  "id": "q31",
+  "difficulty": "medium",
+  "type": "fill",
+  "title": "等差数列与等比数列综合",
+  "content": "已知\\(\\{a_n\\}\\)是公差不为0的等差数列，且\\(a_1,a_2,a_4\\)成等比数列，若\\(S_n\\)是数列\\(\\{a_n\\}\\)的前\\(n\\)项和，则\\(\\dfrac{S_n+18a_1}{a_n}\\)的最小值为______。",
+  "options": [],
+  "answer": "\\dfrac{13}{2}",
+  "analysis": "令\\(\\{a_n\\}\\)的公差为\\(d(d\\ne0)\\)，因为\\(a_1,a_2,a_4\\)成等比数列，所以\\(a_2^2=a_1a_4\\)，即\\((a_1+d)^2=a_1(a_1+3d)\\)，化简得\\(a_1=d\\)，所以\\(a_n=nd\\)。则\\(\\dfrac{S_n+18a_1}{a_n}=\\dfrac{\\dfrac{n(n+1)}{2}d+18d}{nd}=\\dfrac{1}{2}n+\\dfrac{18}{n}+\\dfrac{1}{2}\\ge2\\sqrt{\\dfrac{1}{2}n\\cdot\\dfrac{18}{n}}+\\dfrac{1}{2}=2\\times3+\\dfrac{1}{2}=\\dfrac{13}{2}\\)，当且仅当\\(\\dfrac{1}{2}n=\\dfrac{18}{n}\\)，即\\(n=6\\)时取等号。"
+},
+{
+  "id": "q32",
+  "difficulty": "hard",
+  "type": "fill",
+  "title": "抛物线与外接圆交点",
+  "content": "在平面直角坐标系\\(xOy\\)中，直线\\(l\\)与抛物线\\(C:y^2=2px\\)交于\\(M(x_1,y_1),N(x_2,y_2)\\)两点，且\\(y_1+y_2=2024\\)，若三角形\\(OMN\\)的外接圆与曲线\\(C\\)交于点\\(D(x_3,y_3)\\)（异于\\(O,M,N\\)），则\\(y_3=\\)______。",
+  "options": [],
+  "answer": "-2024",
+  "analysis": "方法1：设\\(M(x_1,y_1),N(x_2,y_2),D(x_3,y_3)\\)，因为\\(O,M,D,N\\)四点共圆，设该圆的方程为\\(x^2+y^2+dx+ey=0\\)。联立\\(\\left\\{\\begin{array}{l}x^2+y^2+dx+ey=0\\\\y^2=2px\\end{array}\\right.\\)，消去\\(x\\)，得\\(y^4+(4p^2+2pd)y^2+4p^2ey=0\\)，即\\(y[y^3+(4p^2+2pd)y+4p^2e]=0\\)。所以\\(y_1,y_2,y_3\\)是关于\\(y\\)的方程\\(y^3+(4p^2+2pd)y+4p^2e=0\\)的三个根，则\\(y^3+(4p^2+2pd)y+4p^2e=(y-y_1)(y-y_2)(y-y_3)\\)。由\\(y^3\\)的系数对应相等得\\(y_1+y_2+y_3=0\\)，所以\\(y_3=-(y_1+y_2)=-2024\\)。\n\n方法2：由\\(k_{OM}=\\dfrac{2p}{y_1},k_{ON}=\\dfrac{2p}{y_2},k_{MD}=\\dfrac{2p}{y_1+y_3},k_{ND}=\\dfrac{2p}{y_2+y_3}\\)，则\\(\\tan\\angle MON=\\dfrac{k_{OM}-k_{ON}}{1+k_{OM}\\cdot k_{ON}}=\\dfrac{2p(y_2-y_1)}{y_1y_2+4p^2}\\)，\\(\\tan\\angle MDN=\\dfrac{k_{MD}-k_{ND}}{1+k_{MD}\\cdot k_{ND}}=\\dfrac{2p(y_1-y_2)}{(y_1+y_3)(y_2+y_3)+4p^2}\\)。因为\\(O,M,D,N\\)四点共圆，所以\\(\\angle MON+\\angle MDN=\\pi\\)，即\\(\\tan\\angle MON+\\tan\\angle MDN=0\\)。化简可得\\(y_1+y_2+y_3=0\\)，所以\\(y_3=-(y_1+y_2)=-2024\\)。"
+}
+]
