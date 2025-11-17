@@ -32,24 +32,43 @@ const DIFFICULTY_TIME_CONFIG = {
   hard: { maxTime: 45000, minTime: 10000, baseScore: 150 }
 };
 
-
-// 获取本机IP地址
+// 获取本机内网IP地址
 function getNetworkIP() {
-    const interfaces = os.networkInterfaces();
-    for (const interfaceName in interfaces) {
-        for (const iface of interfaces[interfaceName]) {
-            // 跳过内部接口和非IPv4
-            if (iface.internal || iface.family !== 'IPv4') continue;
-            
-            // 检查是否是局域网IP
-            if (iface.address.startsWith('192.168.') || 
-                iface.address.startsWith('10.') || 
-                iface.address.startsWith('172.')) {
-                return iface.address;
-            }
-        }
+  const interfaces = os.networkInterfaces();
+  const ips = [];
+  
+  for (const interfaceName in interfaces) {
+    for (const iface of interfaces[interfaceName]) {
+      // 跳过内部接口和非IPv4
+      if (iface.internal || iface.family !== 'IPv4') continue;
+      
+      // 收集所有局域网IP
+      if (iface.address.startsWith('192.168.') || 
+          iface.address.startsWith('10.') || 
+          iface.address.startsWith('172.')) {
+        ips.push({
+          address: iface.address,
+          interface: interfaceName
+        });
+      }
     }
-    return 'localhost';
+  }
+  
+  // 优先返回192.168.x.x的IP
+  const preferredIP = ips.find(ip => ip.address.startsWith('192.168.'));
+  if (preferredIP) {
+    console.log(`使用内网IP: ${preferredIP.address} (接口: ${preferredIP.interface})`);
+    return preferredIP.address;
+  }
+  
+  // 返回找到的第一个内网IP
+  if (ips.length > 0) {
+    console.log(`使用内网IP: ${ips[0].address} (接口: ${ips[0].interface})`);
+    return ips[0].address;
+  }
+  
+  console.log('未找到内网IP，使用localhost');
+  return 'localhost';
 }
 
 // 内存缓存
@@ -82,8 +101,22 @@ const FriendRequestStatus = {
   ACCEPTED: 'accepted',
   REJECTED: 'rejected'
 };
+
+// 内网专用CORS配置
 app.use(cors({
-  origin: true,
+  origin: function(origin, callback) {
+    // 允许所有内网访问和本地访问
+    if (!origin || 
+        origin.includes('localhost') || 
+        origin.includes('127.0.0.1') ||
+        /http:\/\/192\.168\.\d+\.\d+(:\d+)?$/.test(origin) ||
+        /http:\/\/10\.\d+\.\d+\.\d+(:\d+)?$/.test(origin) ||
+        /http:\/\/172\.(1[6-9]|2[0-9]|3[0-1])\.\d+\.\d+(:\d+)?$/.test(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('不允许的访问来源'));
+    }
+  },
   credentials: true
 }));
 
@@ -110,7 +143,6 @@ app.use(express.static('.', {
   etag: false,
   lastModified: false
 }));
-
 
 // 辅助函数：获取难度中文描述
 function getDifficultyText(difficulty) {
@@ -658,9 +690,22 @@ function sendBattleResult(battle) {
   });
 }
 
+// 内网健康检查接口
+app.get('/api/network-info', (req, res) => {
+  const networkInfo = {
+    localhost: `http://localhost:${PORT}`,
+    lanIp: `http://${getNetworkIP()}:${PORT}`,
+    timestamp: new Date().toISOString(),
+    onlineUsers: userWsMap.size,
+    activeBattles: Array.from(battles.values()).filter(b => b.state === BattleState.PLAYING).length
+  };
+  res.json(networkInfo);
+});
+
 // WebSocket连接处理
 wss.on('connection', (ws, req) => {
-  console.log('新的客户端连接:', req.socket.remoteAddress);
+  const clientIP = req.socket.remoteAddress;
+  console.log('新的内网客户端连接:', clientIP);
   let userId = null;
 
   ws.on('message', async (message) => {
@@ -671,7 +716,7 @@ wss.on('connection', (ws, req) => {
         case 'auth':
           ws.userId = data.userId;
           userWsMap.set(data.userId, ws);
-          console.log(`用户 ${data.userId} 已通过WebSocket验证`);
+          console.log(`用户 ${data.userId} 已通过WebSocket验证 (IP: ${clientIP})`);
           break;
           
         case 'match_join':
@@ -944,7 +989,7 @@ wss.on('connection', (ws, req) => {
           queue.splice(index, 1);
         }
       });
-      console.log(`用户 ${ws.userId} 断开连接`);
+      console.log(`内网用户 ${ws.userId} 断开连接 (IP: ${clientIP})`);
     }
   });
 });
@@ -1305,7 +1350,6 @@ app.get('/api/chat/:friendId', (req, res) => {
   res.json(messages);
 });
 
-
 app.use((req, res, next) => {
   console.log('=== Session 调试 ===');
   console.log('请求路径:', req.path);
@@ -1323,33 +1367,18 @@ app.get('/', (req, res) => {
 async function startServer() {
   await initData();
   
-    server.listen(PORT, HOST, () => {
-      console.log('🚀 服务器启动成功!');
-      console.log('================================');
-      console.log(`📍 本地访问: http://localhost:${PORT}`);
-      console.log(`🌐 公网访问: http://47.114.126.231:${PORT}`);
-      console.log(`🌐 域名访问: http://你的域名`); // 如果将来绑定域名
-      console.log('================================');
-    });
+  const LOCAL_IP = getNetworkIP();
+  
+  server.listen(PORT, HOST, () => {
+    console.log('🚀 内网服务器启动成功!');
+    console.log('================================');
+    console.log(`📍 本机访问: http://localhost:${PORT}`);
+    console.log(`🌐 内网访问: http://${LOCAL_IP}:${PORT}`);
+    console.log(`📱 同一局域网内其他设备可通过上述内网IP访问`);
+    console.log('================================');
+    console.log('💡 提示: 确保防火墙已开放端口', PORT);
+  });
 }
 
 // 启动服务器
 startServer().catch(console.error);
-
-
-// 优雅关闭
-// process.on('SIGINT', () => {
-//     console.log('\n🛑 正在关闭服务器...');
-//     server.close(() => {
-//         console.log('✅ 服务器已关闭');
-//         process.exit(0);
-//     });
-// });
-
-// 启动服务器
-// initData().then(() => {
-//   server.listen(PORT, () => {
-//     console.log(`服务器运行在 http://localhost:${PORT}`);
-//   });
-// });
-// 启动服务器
